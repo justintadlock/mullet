@@ -33,9 +33,9 @@ class Jetpack_Omnisearch_Grunion extends WP_List_Table {
 
 	function get_columns() {
 		$columns = array(
-			'feedback_from' => __('From', 'jetpack'),
-			'feedback_message' => __('Message', 'jetpack'),
-			'feedback_date' => __('Date', 'jetpack'),
+			'feedback_from' => __('From', 'mullet'),
+			'feedback_message' => __('Message', 'mullet'),
+			'feedback_date' => __('Date', 'mullet'),
 		);
 		return $columns;
 	}

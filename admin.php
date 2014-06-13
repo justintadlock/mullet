@@ -13,13 +13,13 @@ add_action( 'media_buttons', 'grunion_media_button', 999 );
 function grunion_media_button( ) {
 	global $post_ID, $temp_ID;
 	$iframe_post_id = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$title = esc_attr( __( 'Add a custom form', 'jetpack' ) );
+	$title = esc_attr( __( 'Add a custom form', 'mullet' ) );
 	$plugin_url = esc_url( GRUNION_PLUGIN_URL );
 	$site_url = esc_url( admin_url( "/admin-ajax.php?post_id={$iframe_post_id}&action=grunion_form_builder&TB_iframe=true&width=768" ) );
 	?>
 
-	<a id="insert-jetpack-contact-form" class="button thickbox" title="<?php esc_html_e( 'Add Contact Form', 'jetpack' ); ?>" data-editor="content" href="<?php echo $site_url ?>&id=add_form">
-		<span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Contact Form', 'jetpack' ); ?>
+	<a id="insert-jetpack-contact-form" class="button thickbox" title="<?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>" data-editor="content" href="<?php echo $site_url ?>&id=add_form">
+		<span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>
 	</a>
 
 	<?php
@@ -98,7 +98,7 @@ function grunion_add_bulk_edit_option() {
 	|| ( ! empty( $_GET['post_status'] ) && 'spam' == $_GET['post_status'] ) )
 		return;
 
-	$spam_text = __( 'Mark Spam', 'jetpack' );
+	$spam_text = __( 'Mark Spam', 'mullet' );
 	?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
@@ -137,7 +137,7 @@ function grunion_handle_bulk_spam() {
 
 	foreach( $post_ids as $post_id ) {
 		if ( ! current_user_can( "edit_page", $post_id ) )
-			wp_die( __( 'You are not allowed to manage this item.', 'jetpack' ) );
+			wp_die( __( 'You are not allowed to manage this item.', 'mullet' ) );
 
 		$post = array(
 				'ID'           => $post_id,
@@ -154,7 +154,7 @@ function grunion_handle_bulk_spam() {
 }
 
 function grunion_message_bulk_spam() {
-	echo '<div class="updated"><p>' . __( 'Feedback(s) marked as spam', 'jetpack' ) . '</p></div>';
+	echo '<div class="updated"><p>' . __( 'Feedback(s) marked as spam', 'mullet' ) . '</p></div>';
 }
 
 // remove admin UI parts that we don't support in feedback management
@@ -184,7 +184,7 @@ function grunion_admin_view_tabs( $views ) {
 
 	preg_match( '|post_type=feedback\'( class="current")?\>(.*)\<span class=|', $views['all'], $match );
 	if ( !empty( $match[2] ) )
-		$views['all'] = str_replace( $match[2], __( 'Messages', 'jetpack' ) . ' ', $views['all'] );
+		$views['all'] = str_replace( $match[2], __( 'Messages', 'mullet' ) . ' ', $views['all'] );
 
 	return $views;
 }
@@ -193,9 +193,9 @@ add_filter( 'manage_feedback_posts_columns', 'grunion_post_type_columns_filter' 
 function grunion_post_type_columns_filter( $cols ) {
 	$cols = array(
 		'cb'	=> '<input type="checkbox" />',
-		'feedback_from'		=> __( 'From', 'jetpack' ),
-		'feedback_message'		=> __( 'Message', 'jetpack' ),
-		'feedback_date'			=> __( 'Date', 'jetpack' )
+		'feedback_from'		=> __( 'From', 'mullet' ),
+		'feedback_message'		=> __( 'Message', 'mullet' ),
+		'feedback_date'			=> __( 'Date', 'mullet' )
 	);
 
 	return $cols;
@@ -276,14 +276,14 @@ function grunion_manage_post_columns( $col, $post_id ) {
 			if ( $post->post_status == 'trash' ) {
 				echo '<span class="untrash" id="feedback-restore-' . $post_id;
 				echo '"><a title="';
-				echo esc_attr__( 'Restore this item from the Trash', 'jetpack' );
+				echo esc_attr__( 'Restore this item from the Trash', 'mullet' );
 				echo '" href="' . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-' . $post->post_type . '_' . $post->ID );
-				echo '">' . __( 'Restore', 'jetpack' ) . '</a></span> | ';
+				echo '">' . __( 'Restore', 'mullet' ) . '</a></span> | ';
 
 				echo "<span class='delete'> <a class='submitdelete' title='";
-				echo esc_attr( __( 'Delete this item permanently', 'jetpack' ) );
+				echo esc_attr( __( 'Delete this item permanently', 'mullet' ) );
 				echo "' href='" . get_delete_post_link( $post->ID, '', true );
-				echo "'>" . __( 'Delete Permanently', 'jetpack' ) . "</a></span>";
+				echo "'>" . __( 'Delete Permanently', 'mullet' ) . "</a></span>";
 ?>
 
 <script>
@@ -314,16 +314,16 @@ $('#feedback-restore-<?php echo $post_id; ?>').click(function(e) {
 			} elseif ( $post->post_status == 'publish' ) {
 				echo '<span class="spam" id="feedback-spam-' . $post_id;
 				echo '"><a title="';
-				echo __( 'Mark this message as spam', 'jetpack' );
+				echo __( 'Mark this message as spam', 'mullet' );
 				echo '" href="' . wp_nonce_url( admin_url( 'admin-ajax.php?post_id=' . $post_id . '&amp;action=spam' ), 'spam-feedback_' . $post_id );
 				echo '">Spam</a></span>';
 				echo ' | ';
 
 				echo '<span class="delete" id="feedback-trash-' . $post_id;
 				echo '">';
-				echo '<a class="submitdelete" title="' . esc_attr__( 'Trash', 'jetpack' );
+				echo '<a class="submitdelete" title="' . esc_attr__( 'Trash', 'mullet' );
 				echo '" href="' . get_delete_post_link( $post_id );
-				echo '">' . __( 'Trash', 'jetpack' ) . '</a></span>';
+				echo '">' . __( 'Trash', 'mullet' ) . '</a></span>';
 
 ?>
 
@@ -374,15 +374,15 @@ jQuery(document).ready( function($) {
 			} elseif ( $post->post_status == 'spam' ) {
 				echo '<span class="unspam unapprove" id="feedback-ham-' . $post_id;
 				echo '"><a title="';
-				echo __( 'Mark this message as NOT spam', 'jetpack' );
+				echo __( 'Mark this message as NOT spam', 'mullet' );
 				echo '" href="">Not Spam</a></span>';
 				echo ' | ';
 
 				echo "<span class='delete' id='feedback-trash-" . $post_id;
 				echo "'> <a class='submitdelete' title='";
-				echo esc_attr( __( 'Delete this item permanently', 'jetpack' ) );
+				echo esc_attr( __( 'Delete this item permanently', 'mullet' ) );
 				echo "' href='" . get_delete_post_link( $post->ID, '', true );
-				echo "'>" . __( 'Delete Permanently', 'jetpack' ) . "</a></span>";
+				echo "'>" . __( 'Delete Permanently', 'mullet' ) . "</a></span>";
 ?>
 
 <script>
@@ -414,7 +414,7 @@ jQuery(document).ready( function($) {
 
 		case 'feedback_date':
 
-			$date_time_format = _x( '%1$s \a\t %2$s', '{$date_format} \a\t {$time_format}', 'jetpack' );
+			$date_time_format = _x( '%1$s \a\t %2$s', '{$date_format} \a\t {$time_format}', 'mullet' );
 			$date_time_format = sprintf( $date_time_format, get_option( 'date_format' ), get_option( 'time_format' ) );
 			$time = date_i18n( $date_time_format, get_the_time( 'U' ) );
 
@@ -542,7 +542,7 @@ function grunion_ajax_spam() {
 	$post_id = (int) $_POST['post_id'];
 	check_ajax_referer( 'grunion-post-status-' . $post_id );
 	if ( !current_user_can("edit_page", $post_id) )
-		wp_die( __( 'You are not allowed to manage this item.', 'jetpack' ) );
+		wp_die( __( 'You are not allowed to manage this item.', 'mullet' ) );
 
 	require_once dirname( __FILE__ ) . '/grunion-contact-form.php';
 
@@ -610,17 +610,17 @@ function grunion_ajax_spam() {
 		}	
 	} elseif( $_POST['make_it'] == 'publish' ) {
 		if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
-			wp_die( __( 'You are not allowed to move this item out of the Trash.', 'jetpack' ) );
+			wp_die( __( 'You are not allowed to move this item out of the Trash.', 'mullet' ) );
 
 		if ( ! wp_untrash_post($post_id) )
-			wp_die( __( 'Error in restoring from Trash.', 'jetpack' ) );
+			wp_die( __( 'Error in restoring from Trash.', 'mullet' ) );
 
 	} elseif( $_POST['make_it'] == 'trash' ) {
 		if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
-			wp_die( __( 'You are not allowed to move this item to the Trash.', 'jetpack' ) );
+			wp_die( __( 'You are not allowed to move this item to the Trash.', 'mullet' ) );
 
 		if ( ! wp_trash_post($post_id) )
-			wp_die( __( 'Error in moving to Trash.', 'jetpack' ) );
+			wp_die( __( 'Error in moving to Trash.', 'mullet' ) );
 
 	}
 
@@ -644,7 +644,7 @@ function grunion_ajax_spam() {
 		if ( $current_menu == 'messages' )
 			$status_html .= ' class="current"';
 
-		$status_html .= '>' . __( 'Messages', 'jetpack' ) . ' <span class="count">';
+		$status_html .= '>' . __( 'Messages', 'mullet' ) . ' <span class="count">';
 		$status_html .= '(' . number_format( $status['publish'] ) . ')';
 		$status_html .= '</span></a> |</li>';
 	}
@@ -654,7 +654,7 @@ function grunion_ajax_spam() {
 		if ( $current_menu == 'trash' )
 			$status_html .= ' class="current"';
 
-		$status_html .= '>' . __( 'Trash', 'jetpack' ) . ' <span class="count">';
+		$status_html .= '>' . __( 'Trash', 'mullet' ) . ' <span class="count">';
 		$status_html .= '(' . number_format( $status['trash'] ) . ')';
 		$status_html .= '</span></a>';
 		if ( isset( $status['spam'] ) )
@@ -667,7 +667,7 @@ function grunion_ajax_spam() {
 		if ( $current_menu == 'spam' )
 			$status_html .= ' class="current"';
 
-		$status_html .= '>' . __( 'Spam', 'jetpack' ) . ' <span class="count">';
+		$status_html .= '>' . __( 'Spam', 'mullet' ) . ' <span class="count">';
 		$status_html .= '(' . number_format( $status['spam'] ) . ')';
 		$status_html .= '</span></a></li>';
 	}

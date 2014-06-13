@@ -79,11 +79,11 @@ class Grunion_Contact_Form_Plugin {
 		// custom post type we'll use to keep copies of the feedback items
 		register_post_type( 'feedback', array(
 			'labels'            => array(
-				'name'               => __( 'Feedback', 'jetpack' ),
-				'singular_name'      => __( 'Feedback', 'jetpack' ),
-				'search_items'       => __( 'Search Feedback', 'jetpack' ),
-				'not_found'          => __( 'No feedback found', 'jetpack' ),
-				'not_found_in_trash' => __( 'No feedback found', 'jetpack' )
+				'name'               => __( 'Feedback', 'mullet' ),
+				'singular_name'      => __( 'Feedback', 'mullet' ),
+				'search_items'       => __( 'Search Feedback', 'mullet' ),
+				'not_found'          => __( 'No feedback found', 'mullet' ),
+				'not_found_in_trash' => __( 'No feedback found', 'mullet' )
 			),
 			'menu_icon'         => 'dashicons-feedback',
 			'show_ui'           => TRUE,
@@ -100,7 +100,7 @@ class Grunion_Contact_Form_Plugin {
 			'public'                 => FALSE,
 			'exclude_from_search'    => TRUE,
 			'show_in_admin_all_list' => FALSE,
-			'label_count'            => _n_noop( 'Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>', 'jetpack' ),
+			'label_count'            => _n_noop( 'Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>', 'mullet' ),
 			'protected'              => TRUE,
 			'_builtin'               => FALSE
 		) );
@@ -189,7 +189,7 @@ class Grunion_Contact_Form_Plugin {
 		if ( ! $submission_result ) {
 			header( "HTTP/1.1 500 Server Error", 500, true );
 			echo '<div class="form-error"><ul class="form-errors"><li class="form-error-message">';
-			esc_html_e( 'An error occurred. Please try again later.', 'jetpack' );
+			esc_html_e( 'An error occurred. Please try again later.', 'mullet' );
 			echo '</li></ul></div>';
 		} elseif ( is_wp_error( $submission_result ) ) {
 			header( "HTTP/1.1 400 Bad Request", 403, true );
@@ -197,7 +197,7 @@ class Grunion_Contact_Form_Plugin {
 			echo esc_html( $submission_result->get_error_message() );
 			echo '</li></ul></div>';
 		} else {
-			echo '<h3>' . esc_html__( 'Message Sent', 'jetpack' ) . '</h3>' . $submission_result;
+			echo '<h3>' . esc_html__( 'Message Sent', 'mullet' ) . '</h3>' . $submission_result;
 		}
 
 		die;
@@ -321,7 +321,7 @@ class Grunion_Contact_Form_Plugin {
 		$result = false;
 		
 		if ( isset( $response[0]['x-akismet-pro-tip'] ) && 'discard' === trim( $response[0]['x-akismet-pro-tip'] ) && get_option( 'akismet_strictness' ) === '1' )
-			$result = new WP_Error( 'feedback-discarded', __('Feedback discarded.', 'jetpack' ) );
+			$result = new WP_Error( 'feedback-discarded', __('Feedback discarded.', 'mullet' ) );
 		elseif ( isset( $response[1] ) && 'true' == trim( $response[1] ) ) // 'true' is spam
 			$result = true;
 			
@@ -361,20 +361,20 @@ class Grunion_Contact_Form_Plugin {
 		?>
 
 		<div id="feedback-export" style="display:none">
-			<h2><?php _e( 'Export feedback as CSV', 'jetpack' ) ?></h2>
+			<h2><?php _e( 'Export feedback as CSV', 'mullet' ) ?></h2>
 			<div class="clear"></div>
 			<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post" class="form">
 				<?php wp_nonce_field( 'feedback_export','feedback_export_nonce' ); ?>
 
 				<input name="action" value="feedback_export" type="hidden">
-				<label for="post"><?php _e( 'Select feedback to download', 'jetpack' ) ?></label>
+				<label for="post"><?php _e( 'Select feedback to download', 'mullet' ) ?></label>
 				<select name="post">
-					<option value="all"><?php esc_html_e( 'All posts', 'jetpack' ) ?></option>
+					<option value="all"><?php esc_html_e( 'All posts', 'mullet' ) ?></option>
 					<?php echo $this->get_feedbacks_as_options() ?>
 				</select>
 
 				<br><br>
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_html_e( 'Download', 'jetpack' ); ?>">
+				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_html_e( 'Download', 'mullet' ); ?>">
 			</form>
 		</div>
 
@@ -421,7 +421,7 @@ class Grunion_Contact_Form_Plugin {
 		$filename  = sanitize_file_name( $filename );
 		$fields    = $this->get_field_names( $feedbacks );
 		
-		array_unshift( $fields, __( 'Contact Form', 'jetpack' ) );
+		array_unshift( $fields, __( 'Contact Form', 'mullet' ) );
 		
 		if ( empty( $feedbacks ) )
 			return;
@@ -564,7 +564,7 @@ class Grunion_Contact_Form_Plugin {
 
 		// Loop the fields array in order to fill the $row_items array correctly
 		foreach ( $fields as $field ) {
-			if ( $field === __( 'Contact Form', 'jetpack' ) ) // the first field will ever be the contact form, so we can continue
+			if ( $field === __( 'Contact Form', 'mullet' ) ) // the first field will ever be the contact form, so we can continue
 				continue;
 			elseif ( array_key_exists( $field, $all_fields ) )
 				$row_items[] = $all_fields[$field];
@@ -782,10 +782,10 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		if ( !empty( $attributes['widget'] ) && $attributes['widget'] ) {
 			$attributes['id'] = 'widget-' . $attributes['widget'];
 
-			$default_subject = sprintf( _x( '%1$s Sidebar', '%1$s = blog name', 'jetpack' ), $default_subject );
+			$default_subject = sprintf( _x( '%1$s Sidebar', '%1$s = blog name', 'mullet' ), $default_subject );
 		} else if ( $post ) {
 			$attributes['id'] = $post->ID;
-			$default_subject = sprintf( _x( '%1$s %2$s', '%1$s = blog name, %2$s = post title', 'jetpack' ), $default_subject, Grunion_Contact_Form_Plugin::strip_tags( $post->post_title ) );
+			$default_subject = sprintf( _x( '%1$s %2$s', '%1$s = blog name, %2$s = post title', 'mullet' ), $default_subject, Grunion_Contact_Form_Plugin::strip_tags( $post->post_title ) );
 			$post_author = get_userdata( $post->post_author );
 			$default_to = $post_author->user_email;
 		}
@@ -796,7 +796,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			'show_subject'       => 'no', // only used in back-compat mode
 			'widget'             => 0,    // Not exposed to the user. Works with Grunion_Contact_Form_Plugin::widget_atts()
 			'id'                 => null, // Not exposed to the user. Set above.
-			'submit_button_text' => __( 'Submit &#187;', 'jetpack' ),
+			'submit_button_text' => __( 'Submit &#187;', 'mullet' ),
 		);
 
 		$attributes = shortcode_atts( $this->defaults, $attributes );
@@ -810,17 +810,17 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		if ( empty( $this->fields ) ) {
 			// same as the original Grunion v1 form
 			$default_form = '
-				[contact-field label="' . __( 'Name', 'jetpack' )    . '" type="name"  required="true" /]
-				[contact-field label="' . __( 'Email', 'jetpack' )   . '" type="email" required="true" /]
-				[contact-field label="' . __( 'Website', 'jetpack' ) . '" type="url" /]';
+				[contact-field label="' . __( 'Name', 'mullet' )    . '" type="name"  required="true" /]
+				[contact-field label="' . __( 'Email', 'mullet' )   . '" type="email" required="true" /]
+				[contact-field label="' . __( 'Website', 'mullet' ) . '" type="url" /]';
 
 			if ( 'yes' == strtolower( $this->get_attribute( 'show_subject' ) ) ) {
 				$default_form .= '
-					[contact-field label="' . __( 'Subject', 'jetpack' ) . '" type="subject" /]';
+					[contact-field label="' . __( 'Subject', 'mullet' ) . '" type="subject" /]';
 			}
 
 			$default_form .= '
-				[contact-field label="' . __( 'Message', 'jetpack' ) . '" type="textarea" /]';
+				[contact-field label="' . __( 'Message', 'mullet' ) . '" type="textarea" /]';
 
 			$this->parse_content( $default_form );
 		}
@@ -897,7 +897,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		if ( is_wp_error( $form->errors ) && $form->errors->get_error_codes() ) {
 			// There are errors.  Display them
-			$r .= "<div class='form-error'>\n<h3>" . __( 'Error!', 'jetpack' ) . "</h3>\n<ul class='form-errors'>\n";
+			$r .= "<div class='form-error'>\n<h3>" . __( 'Error!', 'mullet' ) . "</h3>\n<ul class='form-errors'>\n";
 			foreach ( $form->errors->get_error_messages() as $message )
 				$r .= "\t<li class='form-error-message'>" . esc_html( $message ) . "</li>\n";
 			$r .= "</ul>\n</div>\n\n";
@@ -911,8 +911,8 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			$back_url = remove_query_arg( array( 'contact-form-id', 'contact-form-sent', '_wpnonce' ) );
 
 			$r_success_message =
-				"<h3>" . __( 'Message Sent', 'jetpack' ) .
-				' (<a href="' . esc_url( $back_url ) . '">' . esc_html__( 'go back', 'jetpack' ) . '</a>)' .
+				"<h3>" . __( 'Message Sent', 'mullet' ) .
+				' (<a href="' . esc_url( $back_url ) . '">' . esc_html__( 'go back', 'mullet' ) . '</a>)' .
 				"</h3>\n\n";
 
 			// Don't show the feedback details unless the nonce matches
@@ -987,7 +987,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 				}
 
 				$contact_form_message .= sprintf(
-					_x( '%1$s: %2$s', '%1$s = form field label, %2$s = form field value', 'jetpack' ),
+					_x( '%1$s: %2$s', '%1$s = form field label, %2$s = form field value', 'mullet' ),
 					wp_kses( $field->get_attribute( 'label' ), array() ),
 					wp_kses( $value, array() )
 				) . '<br />';
@@ -1003,7 +1003,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 				$field = $form->fields[$field_id];
 				$label = $field->get_attribute( 'label' );
 				$contact_form_message .= sprintf(
-					_x( '%1$s: %2$s', '%1$s = form field label, %2$s = form field value', 'jetpack' ),
+					_x( '%1$s: %2$s', '%1$s = form field label, %2$s = form field value', 'mullet' ),
 					wp_kses( $label, array() ),
 					wp_kses( $extra_fields[$label], array() )
 				) . '<br />';
@@ -1247,7 +1247,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		$subject = apply_filters( 'contact_form_subject', $contact_form_subject );
 		$url     = $widget ? home_url( '/' ) : get_permalink( $post->ID );
 
-		$date_time_format = _x( '%1$s \a\t %2$s', '{$date_format} \a\t {$time_format}', 'jetpack' );
+		$date_time_format = _x( '%1$s \a\t %2$s', '{$date_format} \a\t {$time_format}', 'mullet' );
 		$date_time_format = sprintf( $date_time_format, get_option( 'date_format' ), get_option( 'time_format' ) );
 		$time = date_i18n( $date_time_format, current_time( 'timestamp' ) );		
 
@@ -1267,18 +1267,18 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			}
 		}		
 		$message .= "\n";
-		$message .= __( 'Time:', 'jetpack' ) . ' ' . $time . "\n";
-		$message .= __( 'IP Address:', 'jetpack' ) . ' ' . $comment_author_IP . "\n";
-		$message .= __( 'Contact Form URL:', 'jetpack' ) . " $url\n";
+		$message .= __( 'Time:', 'mullet' ) . ' ' . $time . "\n";
+		$message .= __( 'IP Address:', 'mullet' ) . ' ' . $comment_author_IP . "\n";
+		$message .= __( 'Contact Form URL:', 'mullet' ) . " $url\n";
 
 		if ( is_user_logged_in() ) {
 			$message .= "\n";
 			$message .= sprintf(
-				__( 'Sent by a verified %s user.', 'jetpack' ),
+				__( 'Sent by a verified %s user.', 'mullet' ),
 				isset( $GLOBALS['current_site']->site_name ) && $GLOBALS['current_site']->site_name ? $GLOBALS['current_site']->site_name : '"' . get_option( 'blogname' ) . '"'
 			);
 		} else {
-			$message .= __( 'Sent by an unverified visitor to your site.', 'jetpack' );
+			$message .= __( 'Sent by an unverified visitor to your site.', 'mullet' );
 		}
 
 		$message = apply_filters( 'contact_form_message', $message );
@@ -1509,13 +1509,13 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 		case 'email' :
 			// Make sure the email address is valid
 			if ( !is_email( $field_value ) ) {
-				$this->add_error( sprintf( __( '%s requires a valid email address', 'jetpack' ), $field_label ) );
+				$this->add_error( sprintf( __( '%s requires a valid email address', 'mullet' ), $field_label ) );
 			}
 			break;
 		default :
 			// Just check for presence of any text
 			if ( !strlen( trim( $field_value ) ) ) {
-				$this->add_error( sprintf( __( '%s is required', 'jetpack' ), $field_label ) );
+				$this->add_error( sprintf( __( '%s is required', 'mullet' ), $field_label ) );
 			}
 		}
 	}
@@ -1564,18 +1564,18 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 		switch ( $field_type ) {
 		case 'email' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label email" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label email" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='email' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='email' " . $field_placeholder . "/>\n";
 			$r .= "\t</div>\n";
 			break;
 		case 'textarea' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='contact-form-comment-" . esc_attr( $field_id ) . "' class='grunion-field-label textarea" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='contact-form-comment-" . esc_attr( $field_id ) . "' class='grunion-field-label textarea" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<textarea name='" . esc_attr( $field_id ) . "' id='contact-form-comment-" . esc_attr( $field_id ) . "' rows='20'>" . esc_textarea( $field_value ) . "</textarea>\n";
 			$r .= "\t</div>\n";
 			break;
 		case 'radio' :
-			$r .= "\t<div><label class='grunion-field-label" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t<div><label class='grunion-field-label" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			foreach ( $this->get_attribute( 'options' ) as $option ) {
 				$option = Grunion_Contact_Form_Plugin::strip_tags( $option );
 				$r .= "\t\t<label class='grunion-radio-label radio" . ( $this->is_error() ? ' form-error' : '' ) . "'>";
@@ -1588,14 +1588,14 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 		case 'checkbox' :
 			$r .= "\t<div>\n";
 			$r .= "\t\t<label class='grunion-field-label checkbox" . ( $this->is_error() ? ' form-error' : '' ) . "'>\n";
-			$r .= "\t\t<input type='checkbox' name='" . esc_attr( $field_id ) . "' value='" . esc_attr__( 'Yes', 'jetpack' ) . "' class='checkbox' " . checked( (bool) $field_value, true, false ) . " /> \n";
-			$r .= "\t\t" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<input type='checkbox' name='" . esc_attr( $field_id ) . "' value='" . esc_attr__( 'Yes', 'mullet' ) . "' class='checkbox' " . checked( (bool) $field_value, true, false ) . " /> \n";
+			$r .= "\t\t" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<div class='clear-form'></div>\n";
 			$r .= "\t</div>\n";
 			break;
 		case 'select' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label select" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label select" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t<select name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' class='select' >\n";
 			foreach ( $this->get_attribute( 'options' ) as $option ) {
 				$option = Grunion_Contact_Form_Plugin::strip_tags( $option );
@@ -1606,7 +1606,7 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			break;
 		case 'date' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='date' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='" . esc_attr( $field_type ) . "'/>\n";
 			$r .= "\t</div>\n";
 
@@ -1616,7 +1616,7 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			// note that any unknown types will produce a text input, so we can use arbitrary type names to handle
 			// input fields like name, email, url that require special validation or handling at POST
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'jetpack' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='text' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='" . esc_attr( $field_type ) . "' " . $field_placeholder . "/>\n";
 			$r .= "\t</div>\n";
 		}
