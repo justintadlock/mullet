@@ -4,23 +4,28 @@
  */
 
 wp_register_script( 'mullet', MULLET_PLUGIN_URL . 'js/mullet.js', array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), MULLET_PLUGIN_VERSION );
-wp_localize_script( 'mullet', 'MulletFB_i18n', array(
-	'nameLabel' => esc_attr( _x( 'Name', 'Label for HTML form "Name" field in contact form builder', 'mullet' ) ),
-	'emailLabel' => esc_attr( _x( 'Email', 'Label for HTML form "Email" field in contact form builder', 'mullet' ) ),
-	'urlLabel' => esc_attr( _x( 'Website', 'Label for HTML form "URL/Website" field in contact form builder', 'mullet' ) ),
-	'commentLabel' => esc_attr( _x( 'Comment', 'Label for HTML form "Comment/Response" field in contact form builder', 'mullet' ) ),
-	'newLabel' => esc_attr( _x( 'New Field', 'Default label for new HTML form field in contact form builder', 'mullet' ) ),
-	'optionsLabel' => esc_attr( _x( 'Options', 'Label for the set of options to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
-	'optionsLabel' => esc_attr( _x( 'Option', 'Label for an option to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
-	'firstOptionLabel' => esc_attr( _x( 'First option', 'Default label for the first option to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
-	'problemGeneratingForm' => esc_attr( _x( "Oops, there was a problem generating your form.  You'll likely need to try again.", 'error message in contact form builder', 'mullet' ) ),
-	'moveInstructions' => esc_attr__( "Drag up or down\nto re-arrange", 'mullet' ),
-	'moveLabel' => esc_attr( _x( 'move', 'Label to drag HTML form fields around to change their order in contact form builder', 'mullet' ) ),
-	'editLabel' => esc_attr( _x( 'edit', 'Link to edit an HTML form field in contact form builder', 'mullet' ) ),
-	'savedMessage' => esc_attr__( 'Saved successfully', 'mullet' ),
-	'requiredLabel' => esc_attr( _x( '(required)', 'This HTML form field is marked as required by the user in contact form builder', 'mullet' ) ),
-	'exitConfirmMessage' => esc_attr__( 'Are you sure you want to exit the form editor without saving?  Any changes you have made will be lost.', 'mullet' ),
-) );
+
+wp_localize_script(
+	'mullet',
+	'MulletFB_i18n',
+	array(
+		'nameLabel'             => esc_attr( _x( 'Name', 'Label for HTML form "Name" field in contact form builder', 'mullet' ) ),
+		'emailLabel'            => esc_attr( _x( 'Email', 'Label for HTML form "Email" field in contact form builder', 'mullet' ) ),
+		'urlLabel'              => esc_attr( _x( 'Website', 'Label for HTML form "URL/Website" field in contact form builder', 'mullet' ) ),
+		'commentLabel'          => esc_attr( _x( 'Comment', 'Label for HTML form "Comment/Response" field in contact form builder', 'mullet' ) ),
+		'newLabel'              => esc_attr( _x( 'New Field', 'Default label for new HTML form field in contact form builder', 'mullet' ) ),
+		'optionsLabel'          => esc_attr( _x( 'Options', 'Label for the set of options to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
+		'optionsLabel'          => esc_attr( _x( 'Option', 'Label for an option to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
+		'firstOptionLabel'      => esc_attr( _x( 'First option', 'Default label for the first option to be included in a user-created dropdown in contact form builder', 'mullet' ) ),
+		'problemGeneratingForm' => esc_attr( _x( "Oops, there was a problem generating your form.  You'll likely need to try again.", 'error message in contact form builder', 'mullet' ) ),
+		'moveInstructions'      => esc_attr__( "Drag up or down\nto re-arrange", 'mullet' ),
+		'moveLabel'             => esc_attr( _x( 'move', 'Label to drag HTML form fields around to change their order in contact form builder', 'mullet' ) ),
+		'editLabel'             => esc_attr( _x( 'edit', 'Link to edit an HTML form field in contact form builder', 'mullet' ) ),
+		'savedMessage'          => esc_attr__( 'Saved successfully', 'mullet' ),
+		'requiredLabel'         => esc_attr( _x( '(required)', 'This HTML form field is marked as required by the user in contact form builder', 'mullet' ) ),
+		'exitConfirmMessage'    => esc_attr__( 'Are you sure you want to exit the form editor without saving?  Any changes you have made will be lost.', 'mullet' ),
+	)
+);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
