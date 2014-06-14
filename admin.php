@@ -1,42 +1,42 @@
 <?php
 
-function grunion_menu_alter() {
-	wp_enqueue_style( 'grunion-menu-alter', plugins_url( 'css/menu-alter.css', __FILE__ ) );
+function mullet_menu_alter() {
+	wp_enqueue_style( 'mullet-menu-alter', plugins_url( 'css/menu-alter.css', __FILE__ ) );
 }
 
-add_action( 'admin_enqueue_scripts', 'grunion_menu_alter' );
+add_action( 'admin_enqueue_scripts', 'mullet_menu_alter' );
 
 /**
  * Add a contact form button to the post composition screen
  */
-add_action( 'media_buttons', 'grunion_media_button', 999 );
-function grunion_media_button( ) {
+add_action( 'media_buttons', 'mullet_media_button', 999 );
+function mullet_media_button( ) {
 	global $post_ID, $temp_ID;
 	$iframe_post_id = (int) (0 == $post_ID ? $temp_ID : $post_ID);
 	$title = esc_attr( __( 'Add a custom form', 'mullet' ) );
-	$plugin_url = esc_url( GRUNION_PLUGIN_URL );
-	$site_url = esc_url( admin_url( "/admin-ajax.php?post_id={$iframe_post_id}&action=grunion_form_builder&TB_iframe=true&width=768" ) );
+	$plugin_url = esc_url( MULLET_PLUGIN_URL );
+	$site_url = esc_url( admin_url( "/admin-ajax.php?post_id={$iframe_post_id}&action=mullet_form_builder&TB_iframe=true&width=768" ) );
 	?>
 
-	<a id="insert-jetpack-contact-form" class="button thickbox" title="<?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>" data-editor="content" href="<?php echo $site_url ?>&id=add_form">
-		<span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>
+	<a id="insert-mullet-contact-form" class="button thickbox" title="<?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>" data-editor="content" href="<?php echo $site_url ?>&id=add_form">
+		<span class="mullet-contact-form-icon"></span> <?php esc_html_e( 'Add Contact Form', 'mullet' ); ?>
 	</a>
 
 	<?php
 }
 
-add_action( 'wp_ajax_grunion_form_builder', 'display_form_view' );
+add_action( 'wp_ajax_mullet_form_builder', 'display_form_view' );
 
 function display_form_view() {
-	require_once GRUNION_PLUGIN_DIR . 'grunion-form-view.php';
+	require_once MULLET_PLUGIN_DIR . 'mullet-form-view.php';
 	exit;
 }
 
 // feedback specific css items
-add_action( 'admin_print_styles', 'grunion_admin_css' );
-function grunion_admin_css() {
+add_action( 'admin_print_styles', 'mullet_admin_css' );
+function mullet_admin_css() {
 	global $current_screen;
-	if ( ! in_array( $current_screen->id, array( 'edit-feedback', 'jetpack_page_omnisearch', 'dashboard_page_omnisearch' ) ) )
+	if ( ! in_array( $current_screen->id, array( 'edit-feedback', 'mullet_page_omnisearch', 'dashboard_page_omnisearch' ) ) )
 		return;
 
 	wp_enqueue_script( 'wp-lists' );
@@ -72,9 +72,9 @@ function grunion_admin_css() {
 color: #D98500;
 }
 
-#icon-edit.icon32-posts-feedback, #icon-post.icon32-posts-feedback { background: url("<?php echo GRUNION_PLUGIN_URL; ?>images/grunion-menu-big.png") no-repeat !important; }
+#icon-edit.icon32-posts-feedback, #icon-post.icon32-posts-feedback { background: url("<?php echo MULLET_PLUGIN_URL; ?>images/mullet-menu-big.png") no-repeat !important; }
 @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
-    #icon-edit.icon32-posts-feedback, #icon-post.icon32-posts-feedback { background: url("<?php echo GRUNION_PLUGIN_URL; ?>images/grunion-menu-big-2x.png") no-repeat !important; background-size: 30px 31px !important; }
+    #icon-edit.icon32-posts-feedback, #icon-post.icon32-posts-feedback { background: url("<?php echo MULLET_PLUGIN_URL; ?>images/mullet-menu-big-2x.png") no-repeat !important; background-size: 30px 31px !important; }
 }
 
 #icon-edit.icon32-posts-feedback { background-position: 2px 2px !important; }
@@ -89,8 +89,8 @@ color: #D98500;
  * There isn't a better way to do this until
  * http://core.trac.wordpress.org/changeset/17297 is resolved
  */
-add_action( 'admin_head', 'grunion_add_bulk_edit_option' );
-function grunion_add_bulk_edit_option() {
+add_action( 'admin_head', 'mullet_add_bulk_edit_option' );
+function mullet_add_bulk_edit_option() {
 
 	$screen = get_current_screen();
 
@@ -111,8 +111,8 @@ function grunion_add_bulk_edit_option() {
 /**
  * Handle a bulk spam report
  */
-add_action( 'admin_init', 'grunion_handle_bulk_spam' );
-function grunion_handle_bulk_spam() {
+add_action( 'admin_init', 'mullet_handle_bulk_spam' );
+function mullet_handle_bulk_spam() {
 	global $pagenow;
 
 	if ( 'edit.php' != $pagenow
@@ -121,7 +121,7 @@ function grunion_handle_bulk_spam() {
 
 	// Slip in a success message
 	if ( ! empty( $_REQUEST['message'] ) && 'marked-spam' == $_REQUEST['message'] )
-		add_action( 'admin_notices', 'grunion_message_bulk_spam' );
+		add_action( 'admin_notices', 'mullet_message_bulk_spam' );
 
 	if ( empty( $_REQUEST['action'] ) || 'spam' != $_REQUEST['action'] )
 		return;
@@ -153,19 +153,19 @@ function grunion_handle_bulk_spam() {
 	exit;
 }
 
-function grunion_message_bulk_spam() {
+function mullet_message_bulk_spam() {
 	echo '<div class="updated"><p>' . __( 'Feedback(s) marked as spam', 'mullet' ) . '</p></div>';
 }
 
 // remove admin UI parts that we don't support in feedback management
-add_action( 'admin_menu', 'grunion_admin_menu' );
-function grunion_admin_menu() {
+add_action( 'admin_menu', 'mullet_admin_menu' );
+function mullet_admin_menu() {
 	global $menu, $submenu;
 	unset( $submenu['edit.php?post_type=feedback'] );
 }
 
-add_filter( 'bulk_actions-edit-feedback', 'grunion_admin_bulk_actions' );
-function grunion_admin_bulk_actions( $actions ) {
+add_filter( 'bulk_actions-edit-feedback', 'mullet_admin_bulk_actions' );
+function mullet_admin_bulk_actions( $actions ) {
 	global $current_screen;
 	if ( 'edit-feedback' != $current_screen->id )
 		return $actions;
@@ -174,8 +174,8 @@ function grunion_admin_bulk_actions( $actions ) {
 	return $actions;
 }
 
-add_filter( 'views_edit-feedback', 'grunion_admin_view_tabs' );
-function grunion_admin_view_tabs( $views ) {
+add_filter( 'views_edit-feedback', 'mullet_admin_view_tabs' );
+function mullet_admin_view_tabs( $views ) {
 	global $current_screen;
 	if ( 'edit-feedback' != $current_screen->id )
 		return $actions;
@@ -189,8 +189,8 @@ function grunion_admin_view_tabs( $views ) {
 	return $views;
 }
 
-add_filter( 'manage_feedback_posts_columns', 'grunion_post_type_columns_filter' );
-function grunion_post_type_columns_filter( $cols ) {
+add_filter( 'manage_feedback_posts_columns', 'mullet_post_type_columns_filter' );
+function mullet_post_type_columns_filter( $cols ) {
 	$cols = array(
 		'cb'	=> '<input type="checkbox" />',
 		'feedback_from'		=> __( 'From', 'mullet' ),
@@ -201,20 +201,20 @@ function grunion_post_type_columns_filter( $cols ) {
 	return $cols;
 }
 
-add_action( 'manage_posts_custom_column', 'grunion_manage_post_columns', 10, 2 );
-function grunion_manage_post_columns( $col, $post_id ) {
+add_action( 'manage_posts_custom_column', 'mullet_manage_post_columns', 10, 2 );
+function mullet_manage_post_columns( $col, $post_id ) {
 	global $post;
 
 	/**
 	 * parse_fields_from_content() does `apply_filter( 'the_content' )` which, in certain situations,
 	 * can slow down page generation times or cause other odd problems. Only call it if we're dealing
-	 * with a Grunion custom column.
+	 * with a Mullet custom column.
 	 */
 	if ( ! in_array( $col, array( 'feedback_date', 'feedback_from', 'feedback_message' ) ) ) {
 		return;
 	}
 
-	$content_fields = Grunion_Contact_Form_Plugin::parse_fields_from_content( $post_id );
+	$content_fields = Mullet_Contact_Form_Plugin::parse_fields_from_content( $post_id );
 
 	switch ( $col ) {
 		case 'feedback_from':
@@ -291,11 +291,11 @@ jQuery(document).ready(function($) {
 $('#feedback-restore-<?php echo $post_id; ?>').click(function(e) {
 	e.preventDefault();
 	$.post(ajaxurl, {
-			action: 'grunion_ajax_spam',
+			action: 'mullet_ajax_spam',
 			post_id: '<?php echo $post_id; ?>',
 			make_it: 'publish',
 			sub_menu: jQuery('.subsubsub .current').attr('href'),
-			_ajax_nonce: '<?php echo wp_create_nonce( 'grunion-post-status-' . $post_id ); ?>'
+			_ajax_nonce: '<?php echo wp_create_nonce( 'mullet-post-status-' . $post_id ); ?>'
 		},
 		function(r) {
 			$('#post-<?php echo $post_id; ?>')
@@ -332,11 +332,11 @@ jQuery(document).ready( function($) {
 	$('#feedback-spam-<?php echo $post_id; ?>').click( function(e) {
 		e.preventDefault();
 		$.post( ajaxurl, {
-				action: 'grunion_ajax_spam',
+				action: 'mullet_ajax_spam',
 				post_id: '<?php echo $post_id; ?>',
 				make_it: 'spam',
 				sub_menu: jQuery('.subsubsub .current').attr('href'),
-				_ajax_nonce: '<?php echo wp_create_nonce( 'grunion-post-status-' . $post_id ); ?>'
+				_ajax_nonce: '<?php echo wp_create_nonce( 'mullet-post-status-' . $post_id ); ?>'
 			},
 			function( r ) {
 				$('#post-<?php echo $post_id; ?>')
@@ -351,11 +351,11 @@ jQuery(document).ready( function($) {
 	$('#feedback-trash-<?php echo $post_id; ?>').click(function(e) {
 		e.preventDefault();
 		$.post(ajaxurl, {
-				action: 'grunion_ajax_spam',
+				action: 'mullet_ajax_spam',
 				post_id: '<?php echo $post_id; ?>',
 				make_it: 'trash',
 				sub_menu: jQuery('.subsubsub .current').attr('href'),
-				_ajax_nonce: '<?php echo wp_create_nonce( 'grunion-post-status-' . $post_id ); ?>'
+				_ajax_nonce: '<?php echo wp_create_nonce( 'mullet-post-status-' . $post_id ); ?>'
 			},
 			function(r) {
 				$('#post-<?php echo $post_id; ?>')
@@ -390,11 +390,11 @@ jQuery(document).ready( function($) {
 	$('#feedback-ham-<?php echo $post_id; ?>').click( function(e) {
 		e.preventDefault();
 		$.post( ajaxurl, {
-				action: 'grunion_ajax_spam',
+				action: 'mullet_ajax_spam',
 				post_id: '<?php echo $post_id; ?>',
 				make_it: 'ham',
 				sub_menu: jQuery('.subsubsub .current').attr('href'),
-				_ajax_nonce: '<?php echo wp_create_nonce( 'grunion-post-status-' . $post_id ); ?>'
+				_ajax_nonce: '<?php echo wp_create_nonce( 'mullet-post-status-' . $post_id ); ?>'
 			},
 			function( r ) {
 				$('#post-<?php echo $post_id; ?>')
@@ -423,7 +423,7 @@ jQuery(document).ready( function($) {
 	}
 }
 
-function grunion_esc_attr( $attr ) {
+function mullet_esc_attr( $attr ) {
 	$out = esc_attr( $attr );
 	// we also have to entity-encode square brackets so they don't interfere with the shortcode parser
 	// FIXME: do this better - just stripping out square brackets for now since they mysteriously keep reappearing
@@ -432,7 +432,7 @@ function grunion_esc_attr( $attr ) {
 	return $out;
 }
 
-function grunion_sort_objects( $a, $b ) {
+function mullet_sort_objects( $a, $b ) {
 	if ( isset($a['order']) && isset($b['order']) )
 		return $a['order'] - $b['order'];
 	return 0;
@@ -440,8 +440,8 @@ function grunion_sort_objects( $a, $b ) {
 
 // take an array of field types from the form builder, and construct a shortcode form
 // returns both the shortcode form, and HTML markup representing a preview of the form
-function grunion_ajax_shortcode() {
-	check_ajax_referer( 'grunion_shortcode' );
+function mullet_ajax_shortcode() {
+	check_ajax_referer( 'mullet_shortcode' );
 
 	$attributes = array();
 
@@ -453,7 +453,7 @@ function grunion_ajax_shortcode() {
 
 	if ( is_array( $_POST['fields'] ) ) {
 		$fields = stripslashes_deep( $_POST['fields'] );
-		usort( $fields, 'grunion_sort_objects' );
+		usort( $fields, 'mullet_sort_objects' );
 
 		$field_shortcodes = array();
 
@@ -470,21 +470,21 @@ function grunion_ajax_shortcode() {
 				}
 			}
 
-			$field_shortcodes[] = new Grunion_Contact_Form_Field( $field_attributes );
+			$field_shortcodes[] = new Mullet_Contact_Form_Field( $field_attributes );
 		}
 	}
 
-	$grunion = new Grunion_Contact_Form( $attributes, $field_shortcodes );
+	$mullet = new Mullet_Contact_Form( $attributes, $field_shortcodes );
 
-	die( "\n$grunion\n" );
+	die( "\n$mullet\n" );
 }
 
 // takes a post_id, extracts the contact-form shortcode from that post (if there is one), parses it,
 // and constructs a json object representing its contents and attributes
-function grunion_ajax_shortcode_to_json() {
-	global $post, $grunion_form;
+function mullet_ajax_shortcode_to_json() {
+	global $post, $mullet_form;
 
-	check_ajax_referer( 'grunion_shortcode_to_json' );
+	check_ajax_referer( 'mullet_shortcode_to_json' );
 
 	if ( !isset( $_POST['content'] ) || !is_numeric( $_POST['post_id'] ) ) {
 		die( '-1' );
@@ -501,7 +501,7 @@ function grunion_ajax_shortcode_to_json() {
 
 	do_shortcode( $content );
 
-	$grunion = Grunion_Contact_Form::$last;
+	$mullet = Mullet_Contact_Form::$last;
 
 	$out = array(
 		'to'      => '',
@@ -509,15 +509,15 @@ function grunion_ajax_shortcode_to_json() {
 		'fields'  => array(),
 	);
 
-	foreach ( $grunion->fields as $field ) {
+	foreach ( $mullet->fields as $field ) {
 		$out['fields'][$field->get_attribute( 'id' )] = $field->attributes;
 	}
 
-	$to = $grunion->get_attribute( 'to' );
-	$subject = $grunion->get_attribute( 'subject' );
+	$to = $mullet->get_attribute( 'to' );
+	$subject = $mullet->get_attribute( 'subject' );
 	foreach ( array( 'to', 'subject' ) as $attribute ) {
-		$value = $grunion->get_attribute( $attribute );
-		if ( isset( $grunion->defaults[$attribute] ) && $value == $grunion->defaults[$attribute] ) {
+		$value = $mullet->get_attribute( $attribute );
+		if ( isset( $mullet->defaults[$attribute] ) && $value == $mullet->defaults[$attribute] ) {
 			$value = '';
 		}
 		$out[$attribute] = $value;
@@ -527,24 +527,24 @@ function grunion_ajax_shortcode_to_json() {
 }
 
 
-add_action( 'wp_ajax_grunion_shortcode', 'grunion_ajax_shortcode' );
-add_action( 'wp_ajax_grunion_shortcode_to_json', 'grunion_ajax_shortcode_to_json' );
+add_action( 'wp_ajax_mullet_shortcode', 'mullet_ajax_shortcode' );
+add_action( 'wp_ajax_mullet_shortcode_to_json', 'mullet_ajax_shortcode_to_json' );
 
 
 // process row-action spam/not spam clicks
-add_action( 'wp_ajax_grunion_ajax_spam', 'grunion_ajax_spam' );
-function grunion_ajax_spam() {
+add_action( 'wp_ajax_mullet_ajax_spam', 'mullet_ajax_spam' );
+function mullet_ajax_spam() {
 	global $wpdb;
 
 	if ( empty( $_POST['make_it'] ) )
 		return;
 
 	$post_id = (int) $_POST['post_id'];
-	check_ajax_referer( 'grunion-post-status-' . $post_id );
+	check_ajax_referer( 'mullet-post-status-' . $post_id );
 	if ( !current_user_can("edit_page", $post_id) )
 		wp_die( __( 'You are not allowed to manage this item.', 'mullet' ) );
 
-	require_once dirname( __FILE__ ) . '/grunion-contact-form.php';
+	require_once dirname( __FILE__ ) . '/mullet-contact-form.php';
 
 	$current_menu = '';
 	if ( preg_match( '|post_type=feedback|', $_POST['sub_menu'] ) ) {
@@ -576,7 +576,7 @@ function grunion_ajax_spam() {
 		
 		// resend the original email
 		$email = get_post_meta( $post_id, '_feedback_email', TRUE );
-		$content_fields = Grunion_Contact_Form_Plugin::parse_fields_from_content( $post_id );
+		$content_fields = Mullet_Contact_Form_Plugin::parse_fields_from_content( $post_id );
 		
 		if ( !empty( $emails ) && !empty( $content_fields ) ) {
 			if ( isset( $content_fields['_feedback_author_email'] ) )
@@ -674,13 +674,4 @@ function grunion_ajax_spam() {
 
 	echo $status_html;
 	exit;
-}
-
-add_action( 'omnisearch_add_providers', 'grunion_omnisearch_add_providers' );
-function grunion_omnisearch_add_providers() {
-	// Feedback uses capability_type 'page'
-	if ( current_user_can( 'edit_pages' ) ) {
-		require_once( GRUNION_PLUGIN_DIR . '/grunion-omnisearch.php' );
-		new Jetpack_Omnisearch_Grunion;
-	}
 }

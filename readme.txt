@@ -1,4 +1,4 @@
-=== Grunion Contact Form ===
+=== Mullet Contact Form ===
 Contributors: mdawaffe, automattic, nickmomrik
 Tags: WordPress.com, contact form, email
 Stable tag: 2.3
@@ -41,9 +41,9 @@ The `[contact-form]` shortcode has the following parameters:
 
 == Frequently Asked Questions ==
 
-= What's a Grunion? =
+= What's a Mullet? =
 
-The plugin was written in Southern California, home of an unusual fish call the [Grunion](http://en.wikipedia.org/wiki/Grunion).
+The plugin was written in Southern California, home of an unusual fish call the [Mullet](http://en.wikipedia.org/wiki/Mullet).
 There's no correlation between fish and contact forms as far as I can tell; it's just a fun sounding word that's geographically apropos.
 
 = What about spam? Will I get a lot from the contact form? =
@@ -79,21 +79,21 @@ Just make the title of your post "Contact Mary" or put "Hey, drop John a line wi
 = 2.3 =
 * Fix for Chrome going 'oh snap' when inserting a new contact form
 * Fix for export/import issue that created users incorrectly
-* Add 'grunion_pre_message_sent' action (dimadin)
+* Add 'mullet_pre_message_sent' action (dimadin)
 * Updates to work with WordPress 3.3+ changes to wp-admin UI
 
 = 2.2 =
-* Only load grunion.css on pages with a contact form
+* Only load mullet.css on pages with a contact form
 * Be better about checking for valid email addresses
 * Track the permalink for the contact form that was used and provide that detail in the email and Feedbacks page
 * Fix for the problem where every feedback would be marked as spam if the Akismet plugin wasn't activated
 * Make sure wp_kses only gets used on strings
-* New filter: grunion_still_email_spam, for those that want to still gets emails even when a feedback has been flagged as spam
+* New filter: mullet_still_email_spam, for those that want to still gets emails even when a feedback has been flagged as spam
 
 = 2.1 =
 * Fix error where the form builder wouldn't load correctly when using mapped domains
 * Don't attempt to check form submission for spam unless the Akismet plugin is active
-* Fixed form styles so that they wouldn't affect forms outside grunion container
+* Fixed form styles so that they wouldn't affect forms outside mullet container
 * Fixed "Add form to post" button in IE7
 * Fixed "re-arrange" in drag and drop so that it doesn't hard return
 * Hid "re-arrange" once you start dragging

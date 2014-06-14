@@ -2,7 +2,7 @@ if ( ! window.FB ) {
 	window.FB = {};
 }
 
-GrunionFB_i18n = jQuery.extend( {
+MulletFB_i18n = jQuery.extend( {
 	nameLabel: 'Name',
 	emailLabel: 'Email',
 	urlLabel: 'Website',
@@ -18,9 +18,9 @@ GrunionFB_i18n = jQuery.extend( {
 	savedMessage: 'Saved successfully',
 	requiredLabel: '(required)',
 	exitConfirmMessage: 'Are you sure you want to exit the form editor without saving?  Any changes you have made will be lost.',
-}, GrunionFB_i18n );
+}, MulletFB_i18n );
 
-GrunionFB_i18n.moveInstructions = GrunionFB_i18n.moveInstructions.replace( "\n", '<br />' );
+MulletFB_i18n.moveInstructions = MulletFB_i18n.moveInstructions.replace( "\n", '<br />' );
 
 FB.span = jQuery( '<span>' );
 FB.esc_html = function( string ) {
@@ -34,7 +34,7 @@ FB.esc_attr = function( string ) {
 
 FB.ContactForm = function() {
 	var fbForm = { // Main object that generated shortcode via AJAX call
-	'action' : 'grunion_shortcode',
+	'action' : 'mullet_shortcode',
 	'_ajax_nonce' : ajax_nonce_shortcode,
 	'to' : '',
 	'subject' : '',
@@ -42,28 +42,28 @@ FB.ContactForm = function() {
 	};
 	var defaultFields = {
 		'name': {
-			'label' : GrunionFB_i18n.nameLabel,
+			'label' : MulletFB_i18n.nameLabel,
 			'type' : 'name',
 			'required' : true,
 			'options' : [],
 			'order' : '1'
 		},
 		'email': {
-			'label' : GrunionFB_i18n.emailLabel,
+			'label' : MulletFB_i18n.emailLabel,
 			'type' : 'email',
 			'required' : true,
 			'options' : [],
 			'order' : '2'
 		},
 		'url': {
-			'label' : GrunionFB_i18n.urlLabel,
+			'label' : MulletFB_i18n.urlLabel,
 			'type' : 'url',
 			'required' : false,
 			'options' : [],
 			'order' : '3'
 		},
 		'comment': {
-			'label' : GrunionFB_i18n.commentLabel,
+			'label' : MulletFB_i18n.commentLabel,
 			'type' : 'textarea',
 			'required' : true,
 			'options' : [],
@@ -71,7 +71,7 @@ FB.ContactForm = function() {
 		}
 	};
 	var debug = false; // will print errors to log if true
-	var grunionNewCount = 0; // increment for new fields
+	var mulletNewCount = 0; // increment for new fields
 	var maxNewFields = 5;  // Limits number of new fields available
 	var optionsCache = {};
 	var optionsCount = 0; // increment for options
@@ -79,29 +79,29 @@ FB.ContactForm = function() {
 
 	function addField () {
 		try {
-			grunionNewCount++;
-			if (grunionNewCount <= maxNewFields) {
+			mulletNewCount++;
+			if (mulletNewCount <= maxNewFields) {
 				// Add to preview
-				jQuery('#fb-extra-fields').append('<div id="fb-new-field' + grunionNewCount + '" fieldid="' + grunionNewCount + '" class="fb-new-fields"><div class="fb-fields"><div id="' + grunionNewCount + '" class="fb-remove"></div><label fieldid="' + grunionNewCount + '" for="fb-field' + grunionNewCount + '"><span class="label-text">' + GrunionFB_i18n.newLabel + '</span> </label><input type="text" id="fb-field' + grunionNewCount + '" disabled="disabled" /></div></div>');
+				jQuery('#fb-extra-fields').append('<div id="fb-new-field' + mulletNewCount + '" fieldid="' + mulletNewCount + '" class="fb-new-fields"><div class="fb-fields"><div id="' + mulletNewCount + '" class="fb-remove"></div><label fieldid="' + mulletNewCount + '" for="fb-field' + mulletNewCount + '"><span class="label-text">' + MulletFB_i18n.newLabel + '</span> </label><input type="text" id="fb-field' + mulletNewCount + '" disabled="disabled" /></div></div>');
 				// Add to form object
-				fbForm.fields[grunionNewCount] = {
-					'label' : GrunionFB_i18n.newLabel,
+				fbForm.fields[mulletNewCount] = {
+					'label' : MulletFB_i18n.newLabel,
 					'type' : 'text',
 					'required' : false,
 					'options' : [],
 					'order' : '5'
 				};
-				if (grunionNewCount === maxNewFields) {
+				if (mulletNewCount === maxNewFields) {
 					jQuery('#fb-new-field').hide();
 				}
 				// Reset form for this new field
 				optionsCount = 0;
 				optionsCache = {};
-				jQuery('#fb-new-options').html('<label for="fb-option0">' + GrunionFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + GrunionFB_i18n.firstOptionLabel + '" class="fb-options" />');
+				jQuery('#fb-new-options').html('<label for="fb-option0">' + MulletFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + MulletFB_i18n.firstOptionLabel + '" class="fb-options" />');
 				jQuery('#fb-options').hide();
-				jQuery('#fb-new-label').val( GrunionFB_i18n.newLabel );
+				jQuery('#fb-new-label').val( MulletFB_i18n.newLabel );
 				jQuery('#fb-new-type').val('text');
-				jQuery('#fb-field-id').val(grunionNewCount);
+				jQuery('#fb-field-id').val(mulletNewCount);
 				setTimeout(function () { jQuery('#fb-new-label').focus().select(); }, 100);
 			} else {
 				jQuery('#fb-new-field').hide();
@@ -119,9 +119,9 @@ FB.ContactForm = function() {
 			var thisType = jQuery('#fb-new-type').val();
 			if (thisType === "radio") {
 				// Add to right col
-				jQuery('#fb-new-options').append('<div id="fb-option-box-' + optionsCount + '" class="fb-new-fields"><span optionid="' + optionsCount + '" class="fb-remove-option"></span><label></label><input type="text" id="fb-option' + optionsCount + '" optionid="' + optionsCount + '" value="' + GrunionFB_i18n.optionLabel + '" class="fb-options" /><div>');
+				jQuery('#fb-new-options').append('<div id="fb-option-box-' + optionsCount + '" class="fb-new-fields"><span optionid="' + optionsCount + '" class="fb-remove-option"></span><label></label><input type="text" id="fb-option' + optionsCount + '" optionid="' + optionsCount + '" value="' + MulletFB_i18n.optionLabel + '" class="fb-options" /><div>');
 				// Add to preview
-				jQuery('#fb-new-field' + thisId + ' .fb-fields').append('<div id="fb-radio-' + thisId + '-' + optionsCount + '"><input type="radio" disabled="disabled" id="fb-field' + thisId + '" name="radio-' + thisId + '" /><span>' + GrunionFB_i18n.optionLabel + '</span><div class="clear"></div></div>');
+				jQuery('#fb-new-field' + thisId + ' .fb-fields').append('<div id="fb-radio-' + thisId + '-' + optionsCount + '"><input type="radio" disabled="disabled" id="fb-field' + thisId + '" name="radio-' + thisId + '" /><span>' + MulletFB_i18n.optionLabel + '</span><div class="clear"></div></div>');
 			} else {
 				// Add to right col
 				jQuery('#fb-new-options').append('<div id="fb-option-box-' + optionsCount + '" class="fb-new-fields"><span optionid="' + optionsCount + '" class="fb-remove-option"></span><label></label><input type="text" id="fb-option' + optionsCount + '" optionid="' + optionsCount + '" value="" class="fb-options" /><div>');
@@ -182,11 +182,11 @@ FB.ContactForm = function() {
 	}
 	function deleteField (that) {
 		try {
-			grunionNewCount--;
+			mulletNewCount--;
 			var thisId = that.attr("id");
 			delete fbForm.fields[thisId];
 			jQuery("#"+thisId).parent().parent().remove();
-			if (grunionNewCount <= maxNewFields) {
+			if (mulletNewCount <= maxNewFields) {
 				jQuery('#fb-new-field').show();
 			}
 		} catch(e) {
@@ -214,7 +214,7 @@ FB.ContactForm = function() {
 				shortcode = response;
 			});
 		} catch(e) {
-			alert( GrunionFB_i18n.problemGeneratingForm );
+			alert( MulletFB_i18n.problemGeneratingForm );
 			if (debug) {
 				console.log("grabShortcode(): " + e);
 			}
@@ -252,7 +252,7 @@ FB.ContactForm = function() {
 				if (jQuery(".fb-edit-field").is(":visible")) {
 					jQuery(".fb-edit-field").remove();
 				}
-				that.find('label').prepend('<span class="right fb-edit-field" style="font-weight: normal;"><a href="" class="fb-reorder"><div style="display: none;">' + GrunionFB_i18n.moveInstructions + '</div>' + GrunionFB_i18n.moveLabel + '</a>&nbsp;&nbsp;<span style="color: #C7D8DE;">|</span>&nbsp;&nbsp;<a href="" class="fb-edit">' + GrunionFB_i18n.editLabel + '</a></span>');
+				that.find('label').prepend('<span class="right fb-edit-field" style="font-weight: normal;"><a href="" class="fb-reorder"><div style="display: none;">' + MulletFB_i18n.moveInstructions + '</div>' + MulletFB_i18n.moveLabel + '</a>&nbsp;&nbsp;<span style="color: #C7D8DE;">|</span>&nbsp;&nbsp;<a href="" class="fb-edit">' + MulletFB_i18n.editLabel + '</a></span>');
 			} else {
 				jQuery('.fb-edit-field').remove();
 			}
@@ -425,7 +425,7 @@ FB.ContactForm = function() {
 	}
 	function showAndHideMessage (message) {
 		try {
-			var newMessage = (!message) ? GrunionFB_i18n.savedMessage : message;
+			var newMessage = (!message) ? MulletFB_i18n.savedMessage : message;
 			jQuery('#fb-success').text(newMessage);
 			jQuery('#fb-success').slideDown('fast');
 			setTimeout(function () {
@@ -463,7 +463,7 @@ FB.ContactForm = function() {
 			var thisLabel = jQuery('#fb-new-label').val();
 			// Update preview
 			if (thisLabel.length === 0) {
-				jQuery('#fb-new-field' + thisId + ' label .label-text').text( GrunionFB_i18n.newLabel );
+				jQuery('#fb-new-field' + thisId + ' label .label-text').text( MulletFB_i18n.newLabel );
 			} else {
 				jQuery('#fb-new-field' + thisId + ' label .label-text').text( thisLabel );
 			}
@@ -512,7 +512,7 @@ FB.ContactForm = function() {
 			// Update object and preview
 			if (thisChecked) {
 				fbForm.fields[thisId].required = true;
-				jQuery('#fb-new-field' + thisId + ' label').append('<span class="label-required">' + GrunionFB_i18n.requiredLabel + '</span>');
+				jQuery('#fb-new-field' + thisId + ' label').append('<span class="label-required">' + MulletFB_i18n.requiredLabel + '</span>');
 			} else {
 				fbForm.fields[thisId].required = false;
 				jQuery('#fb-new-field' + thisId + ' label .label-required').remove();
@@ -539,7 +539,7 @@ FB.ContactForm = function() {
 			var thisId = jQuery('#fb-field-id').val();
 			if (!thisType) { var thisType = jQuery('#fb-new-type').val(); }
 			if (!thisLabelText) { var thisLabelText = jQuery('#fb-new-field' + thisId + ' .label-text').text(); }
-			var isRequired = (thisRequired) ? '<span class="label-required">' + GrunionFB_i18n.requiredLabel + '</span>' : '';
+			var isRequired = (thisRequired) ? '<span class="label-required">' + MulletFB_i18n.requiredLabel + '</span>' : '';
 			var thisLabel = '<label fieldid="' + thisId + '" for="fb-field' +  thisId + '"><span class="label-text">' + FB.esc_html( thisLabelText ) + '</span>' + isRequired + '</label>';
 			var thisRadio = '<input type="radio" name="radio-' + thisId + '" id="fb-field' + thisId + ' "disabled="disabled" />';
 			var thisRadioLabel = '<label fieldid="' + thisId + '" for="fb-field' +  thisId + '" class="fb-radio-label"><span class="label-text">' + FB.esc_html( thisLabelText ) + '</span>' + isRequired + '</label>';
@@ -549,7 +549,7 @@ FB.ContactForm = function() {
 			var thisText = '<input type="text" id="fb-field' + thisId + '" "disabled="disabled" />';
 			var thisTextarea = '<textarea id="fb-field' + thisId + '" "disabled="disabled"></textarea>';
 			var thisClear = '<div class="clear"></div>';
-			var thisSelect = '<select id="fb-field' + thisId + '" fieldid="' + thisId + '"><option id="fb-' + thisId + '-' + optionsCount + '" value="' + thisId + '-' + optionsCount + '">' + GrunionFB_i18n.firstOptionLabel + '</option></select>';
+			var thisSelect = '<select id="fb-field' + thisId + '" fieldid="' + thisId + '"><option id="fb-' + thisId + '-' + optionsCount + '" value="' + thisId + '-' + optionsCount + '">' + MulletFB_i18n.firstOptionLabel + '</option></select>';
 			switch (thisType) {
 				case "checkbox":
 					removeOptions();
@@ -569,9 +569,9 @@ FB.ContactForm = function() {
 						fbForm.fields[thisId].options = optionsCache[thisId].options;
 						jQuery('#fb-custom-radio' + thisId).append(customOptions(thisId, thisType));
 					} else {
-						jQuery('#fb-new-options').html('<label for="fb-option0">' + GrunionFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + GrunionFB_i18n.firstOptionLabel + '" class="fb-options" />');
-						jQuery('#fb-custom-radio' + thisId).append('<div id="fb-radio-' + thisId + '-0">' + thisRadio + '<span>' + GrunionFB_i18n.firstOptionLabel + '</span>' + thisClear + '</div>');
-						fbForm.fields[thisId].options[optionsCount] = GrunionFB_i18n.firstOptionLabel;
+						jQuery('#fb-new-options').html('<label for="fb-option0">' + MulletFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + MulletFB_i18n.firstOptionLabel + '" class="fb-options" />');
+						jQuery('#fb-custom-radio' + thisId).append('<div id="fb-radio-' + thisId + '-0">' + thisRadio + '<span>' + MulletFB_i18n.firstOptionLabel + '</span>' + thisClear + '</div>');
+						fbForm.fields[thisId].options[optionsCount] = MulletFB_i18n.firstOptionLabel;
 					}
 					jQuery('#fb-options').show();
 					setTimeout(function () { jQuery('#fb-option0').focus().select(); }, 100);
@@ -582,8 +582,8 @@ FB.ContactForm = function() {
 						fbForm.fields[thisId].options = optionsCache[thisId].options;
 						jQuery('#fb-field' + thisId).html(customOptions(thisId, thisType));
 					} else {
-						jQuery('#fb-new-options').html('<label for="fb-option0">' + GrunionFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + GrunionFB_i18n.firstOptionLabel + '" class="fb-options" />');
-						fbForm.fields[thisId].options[optionsCount] = GrunionFB_i18n.firstOptionLabel;
+						jQuery('#fb-new-options').html('<label for="fb-option0">' + MulletFB_i18n.optionsLabel + '</label><input type="text" id="fb-option0" optionid="0" value="' + MulletFB_i18n.firstOptionLabel + '" class="fb-options" />');
+						fbForm.fields[thisId].options[optionsCount] = MulletFB_i18n.firstOptionLabel;
 					}
 					jQuery('#fb-options').show();
 					setTimeout(function () { jQuery('#fb-option0').focus().select(); }, 100);
@@ -639,7 +639,7 @@ FB.ContactForm = function() {
 				var contentSource = jQuery('#content', window.parent.document).val();
 			}
 			var data = {
-				action: 'grunion_shortcode_to_json',
+				action: 'mullet_shortcode_to_json',
 				'_ajax_nonce' : ajax_nonce_json,
 				post_id: postId,
 				content: contentSource
@@ -678,7 +678,7 @@ FB.ContactForm = function() {
 				return false;
 			});
 			jQuery('#TB_overlay, #TB_closeWindowButton', window.parent.document).mousedown(function () {
-				if(confirm( GrunionFB_i18n.exitConfirmMessage )) {
+				if(confirm( MulletFB_i18n.exitConfirmMessage )) {
 					hidePopup();
 				}
 			});
@@ -697,7 +697,7 @@ FB.ContactForm = function() {
 			});
 			jQuery('#fb-prev-form').click(function () {
 				switchTabs('preview');
-				showAndHideMessage( GrunionFB_i18n.savedMessage );
+				showAndHideMessage( MulletFB_i18n.savedMessage );
 				return false;
 			});
 			jQuery('#tab-settings a').click(function () {

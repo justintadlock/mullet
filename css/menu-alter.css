@@ -11,7 +11,7 @@
 	margin-left: -1px;
 }
 
-.jetpack-contact-form-icon:before {
+.mullet-contact-form-icon:before {
 	content: '\f175';
 	color: #888;
 	vertical-align: text-bottom;
@@ -24,12 +24,12 @@
 .pre-mp6 #adminmenu .menu-icon-feedback:hover div.wp-menu-image,
 .pre-mp6 #adminmenu .menu-icon-feedback.wp-has-current-submenu div.wp-menu-image,
 .pre-mp6 #adminmenu .menu-icon-feedback.current div.wp-menu-image {
-	background: url(../images/grunion-menu-hover.png) no-repeat 7px 7px !important;
+	background: url(../images/mullet-menu-hover.png) no-repeat 7px 7px !important;
 	background-size: 15px 16px !important;
 }
 
 .pre-mp6 #adminmenu .menu-icon-feedback div.wp-menu-image {
-	background: url(../images/grunion-menu.png) no-repeat 7px 7px !important;
+	background: url(../images/mullet-menu.png) no-repeat 7px 7px !important;
 	background-size: 15px 16px !important;
 }
 
@@ -37,8 +37,8 @@
 	display: none;
 }
 
-.pre-mp6 .jetpack-contact-form-icon {
-	background: url(../images/grunion-form.png) no-repeat;
+.pre-mp6 .mullet-contact-form-icon {
+	background: url(../images/mullet-form.png) no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -46,7 +46,7 @@
 	background-size: 13px 12px !important;
 }
 
-.pre-mp6 .jetpack-contact-form-icon:before {
+.pre-mp6 .mullet-contact-form-icon:before {
 	display: none;
 }
 
@@ -58,15 +58,15 @@
 	.pre-mp6 #adminmenu .menu-icon-feedback:hover div.wp-menu-image,
 	.pre-mp6 #adminmenu .menu-icon-feedback.wp-has-current-submenu div.wp-menu-image,
 	.pre-mp6 #adminmenu .menu-icon-feedback.current div.wp-menu-image {
-		background-image: url(../images/grunion-menu-hover-2x.png);
+		background-image: url(../images/mullet-menu-hover-2x.png);
 	}
 
 	.pre-mp6 #adminmenu .menu-icon-feedback div.wp-menu-image {
-		background-image: url(../images/grunion-menu-2x.png);
+		background-image: url(../images/mullet-menu-2x.png);
 	}
 
-	.pre-mp6 .jetpack-contact-form-icon {
-		background-image: url(../images/grunion-form-2x.png);
+	.pre-mp6 .mullet-contact-form-icon {
+		background-image: url(../images/mullet-form-2x.png);
 		vertical-align: bottom;
 	}
 

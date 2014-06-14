@@ -1,0 +1,488 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Mullet Contact Form\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-14 12:25+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: David Chandra Purnama <david@shellcreeper.com>\n"
+"Language-Team: David Chandra P <david@shellcreeper.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;esc_attr_e;esc_attr__;esc_html_e;esc_html__;_x;"
+"_n;_x:1,2c;_n:1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin.php:16
+msgid "Add a custom form"
+msgstr ""
+
+#: admin.php:21 admin.php:22
+msgid "Add Contact Form"
+msgstr ""
+
+#: admin.php:101
+msgid "Mark Spam"
+msgstr ""
+
+#: admin.php:140 admin.php:545
+msgid "You are not allowed to manage this item."
+msgstr ""
+
+#: admin.php:157
+msgid "Feedback(s) marked as spam"
+msgstr ""
+
+#: admin.php:187 admin.php:647
+msgid "Messages"
+msgstr ""
+
+#: admin.php:196
+msgid "From"
+msgstr ""
+
+#: admin.php:197 mullet-contact-form.php:833
+msgid "Message"
+msgstr ""
+
+#: admin.php:198
+msgid "Date"
+msgstr ""
+
+#: admin.php:279
+msgid "Restore this item from the Trash"
+msgstr ""
+
+#: admin.php:281
+msgid "Restore"
+msgstr ""
+
+#: admin.php:284 admin.php:383
+msgid "Delete this item permanently"
+msgstr ""
+
+#: admin.php:286 admin.php:385
+msgid "Delete Permanently"
+msgstr ""
+
+#: admin.php:317
+msgid "Mark this message as spam"
+msgstr ""
+
+#: admin.php:324 admin.php:326 admin.php:657
+msgid "Trash"
+msgstr ""
+
+#: admin.php:377
+msgid "Mark this message as NOT spam"
+msgstr ""
+
+#: admin.php:417 mullet-contact-form.php:1260
+#, php-format
+msgctxt "{$date_format} \\a\\t {$time_format}"
+msgid "%1$s \\a\\t %2$s"
+msgstr ""
+
+#: admin.php:613
+msgid "You are not allowed to move this item out of the Trash."
+msgstr ""
+
+#: admin.php:616
+msgid "Error in restoring from Trash."
+msgstr ""
+
+#: admin.php:620
+msgid "You are not allowed to move this item to the Trash."
+msgstr ""
+
+#: admin.php:623
+msgid "Error in moving to Trash."
+msgstr ""
+
+#: admin.php:670
+msgid "Spam"
+msgstr ""
+
+#: mullet-contact-form.php:92 mullet-contact-form.php:93
+#: mullet-form-view.php:136
+msgid "Feedback"
+msgstr ""
+
+#: mullet-contact-form.php:94
+msgid "Search Feedback"
+msgstr ""
+
+#: mullet-contact-form.php:95 mullet-contact-form.php:96
+msgid "No feedback found"
+msgstr ""
+
+#: mullet-contact-form.php:202
+msgid "An error occurred. Please try again later."
+msgstr ""
+
+#: mullet-contact-form.php:210 mullet-contact-form.php:924
+msgid "Message Sent"
+msgstr ""
+
+#: mullet-contact-form.php:334
+msgid "Feedback discarded."
+msgstr ""
+
+#: mullet-contact-form.php:374
+msgid "Export feedback as CSV"
+msgstr ""
+
+#: mullet-contact-form.php:380
+msgid "Select feedback to download"
+msgstr ""
+
+#: mullet-contact-form.php:382
+msgid "All posts"
+msgstr ""
+
+#: mullet-contact-form.php:387
+msgid "Download"
+msgstr ""
+
+#: mullet-contact-form.php:434 mullet-contact-form.php:577
+#: mullet-form-view.php:30
+msgid "Contact Form"
+msgstr ""
+
+#: mullet-contact-form.php:795
+#, php-format
+msgctxt "%1$s = blog name"
+msgid "%1$s Sidebar"
+msgstr ""
+
+#: mullet-contact-form.php:798
+#, php-format
+msgctxt "%1$s = blog name, %2$s = post title"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: mullet-contact-form.php:809
+msgid "Submit &#187;"
+msgstr ""
+
+#: mullet-contact-form.php:823 mullet-form-view.php:158
+msgid "Name"
+msgstr ""
+
+#: mullet-contact-form.php:824 mullet-form-view.php:157
+msgid "Email"
+msgstr ""
+
+#: mullet-contact-form.php:825 mullet-form-view.php:162
+msgid "Website"
+msgstr ""
+
+#: mullet-contact-form.php:829
+msgid "Subject"
+msgstr ""
+
+#: mullet-contact-form.php:910
+msgid "Error!"
+msgstr ""
+
+#: mullet-contact-form.php:925
+msgid "go back"
+msgstr ""
+
+#: mullet-contact-form.php:1000 mullet-contact-form.php:1016
+#, php-format
+msgctxt "%1$s = form field label, %2$s = form field value"
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: mullet-contact-form.php:1280
+msgid "Time:"
+msgstr ""
+
+#: mullet-contact-form.php:1281
+msgid "IP Address:"
+msgstr ""
+
+#: mullet-contact-form.php:1282
+msgid "Contact Form URL:"
+msgstr ""
+
+#: mullet-contact-form.php:1287
+#, php-format
+msgid "Sent by a verified %s user."
+msgstr ""
+
+#: mullet-contact-form.php:1291
+msgid "Sent by an unverified visitor to your site."
+msgstr ""
+
+#: mullet-contact-form.php:1522
+#, php-format
+msgid "%s requires a valid email address"
+msgstr ""
+
+#: mullet-contact-form.php:1528
+#, php-format
+msgid "%s is required"
+msgstr ""
+
+#: mullet-contact-form.php:1577 mullet-contact-form.php:1583
+#: mullet-contact-form.php:1588 mullet-contact-form.php:1602
+#: mullet-contact-form.php:1608 mullet-contact-form.php:1619
+#: mullet-contact-form.php:1629
+msgid "(required)"
+msgstr ""
+
+#: mullet-contact-form.php:1601
+msgid "Yes"
+msgstr ""
+
+#: mullet-form-view.php:8
+msgctxt "Label for HTML form \"Name\" field in contact form builder"
+msgid "Name"
+msgstr ""
+
+#: mullet-form-view.php:9
+msgctxt "Label for HTML form \"Email\" field in contact form builder"
+msgid "Email"
+msgstr ""
+
+#: mullet-form-view.php:10
+msgctxt "Label for HTML form \"URL/Website\" field in contact form builder"
+msgid "Website"
+msgstr ""
+
+#: mullet-form-view.php:11
+msgctxt ""
+"Label for HTML form \"Comment/Response\" field in contact form builder"
+msgid "Comment"
+msgstr ""
+
+#: mullet-form-view.php:12
+msgctxt "Default label for new HTML form field in contact form builder"
+msgid "New Field"
+msgstr ""
+
+#: mullet-form-view.php:13
+msgctxt ""
+"Label for the set of options to be included in a user-created dropdown in "
+"contact form builder"
+msgid "Options"
+msgstr ""
+
+#: mullet-form-view.php:14
+msgctxt ""
+"Label for an option to be included in a user-created dropdown in contact "
+"form builder"
+msgid "Option"
+msgstr ""
+
+#: mullet-form-view.php:15
+msgctxt ""
+"Default label for the first option to be included in a user-created dropdown "
+"in contact form builder"
+msgid "First option"
+msgstr ""
+
+#: mullet-form-view.php:16
+msgctxt "error message in contact form builder"
+msgid ""
+"Oops, there was a problem generating your form.  You'll likely need to try "
+"again."
+msgstr ""
+
+#: mullet-form-view.php:17
+msgid ""
+"Drag up or down\n"
+"to re-arrange"
+msgstr ""
+
+#: mullet-form-view.php:18
+msgctxt ""
+"Label to drag HTML form fields around to change their order in contact form "
+"builder"
+msgid "move"
+msgstr ""
+
+#: mullet-form-view.php:19
+msgctxt "Link to edit an HTML form field in contact form builder"
+msgid "edit"
+msgstr ""
+
+#: mullet-form-view.php:20
+msgid "Saved successfully"
+msgstr ""
+
+#: mullet-form-view.php:21
+msgctxt ""
+"This HTML form field is marked as required by the user in contact form "
+"builder"
+msgid "(required)"
+msgstr ""
+
+#: mullet-form-view.php:22
+msgid ""
+"Are you sure you want to exit the form editor without saving?  Any changes "
+"you have made will be lost."
+msgstr ""
+
+#: mullet-form-view.php:118
+msgid "Your new field was saved successfully"
+msgstr ""
+
+#: mullet-form-view.php:120
+msgid "Form builder"
+msgstr ""
+
+#: mullet-form-view.php:121
+msgid "Email notifications"
+msgstr ""
+
+#: mullet-form-view.php:126
+msgid "How does this work?"
+msgstr ""
+
+#: mullet-form-view.php:127
+msgid ""
+"By adding a contact form, your readers will be able to submit feedback to "
+"you. All feedback is automatically scanned for spam, and the legitimate "
+"feedback will be emailed to you."
+msgstr ""
+
+#: mullet-form-view.php:128
+msgid "Can I add more fields?"
+msgstr ""
+
+#: mullet-form-view.php:130
+#, php-format
+msgctxt "%1$s = \"Click here\" in an HTML link"
+msgid ""
+"Sure thing. %1$s to add a new text box, textarea, radio, checkbox, or "
+"dropdown field."
+msgstr ""
+
+#: mullet-form-view.php:131
+msgid "Click here"
+msgstr ""
+
+#: mullet-form-view.php:133
+msgid "Can I view my feedback within WordPress?"
+msgstr ""
+
+#: mullet-form-view.php:135
+#, php-format
+msgctxt "%1$s = \"Feedback\" in an HTML link"
+msgid ""
+"Yep, you can read your feedback at any time by clicking the \"%1$s\" link in "
+"the admin menu."
+msgstr ""
+
+#: mullet-form-view.php:141
+msgid "Do I need to fill this out?"
+msgstr ""
+
+#: mullet-form-view.php:142
+msgid ""
+"Nope.  However, if you&#8217;d like to modify where your feedback is sent, "
+"or the subject line you can.  If you don&#8217;t make any changes here, "
+"feedback will be sent to the author of the page/post and the subject will be "
+"the name of this page/post."
+msgstr ""
+
+#: mullet-form-view.php:143
+msgid "Can I send a notification to more than one person?"
+msgstr ""
+
+#: mullet-form-view.php:144
+msgid ""
+"Yep. You can enter multiple email addresses in the Email address field, and "
+"separate them with commas. A notification email will then be sent to each "
+"email address."
+msgstr ""
+
+#: mullet-form-view.php:148
+msgid "Edit this new field"
+msgstr ""
+
+#: mullet-form-view.php:150
+msgid "Label"
+msgstr ""
+
+#: mullet-form-view.php:151
+msgid "New field"
+msgstr ""
+
+#: mullet-form-view.php:153
+msgid "Field type"
+msgstr ""
+
+#: mullet-form-view.php:155
+msgid "Checkbox"
+msgstr ""
+
+#: mullet-form-view.php:156
+msgid "Drop down"
+msgstr ""
+
+#: mullet-form-view.php:159
+msgid "Radio"
+msgstr ""
+
+#: mullet-form-view.php:160
+msgid "Text"
+msgstr ""
+
+#: mullet-form-view.php:161
+msgid "Textarea"
+msgstr ""
+
+#: mullet-form-view.php:168
+msgid "Options"
+msgstr ""
+
+#: mullet-form-view.php:169
+msgid "First option"
+msgstr ""
+
+#: mullet-form-view.php:172
+msgid "Add another option"
+msgstr ""
+
+#: mullet-form-view.php:179
+msgid "Required?"
+msgstr ""
+
+#: mullet-form-view.php:184
+msgid "Save this field"
+msgstr ""
+
+#: mullet-form-view.php:189
+msgid "Here&#8217;s what your form will look like"
+msgstr ""
+
+#: mullet-form-view.php:194
+msgid "Add a new field"
+msgstr ""
+
+#: mullet-form-view.php:196
+msgid "Add this form to my post"
+msgstr ""
+
+#: mullet-form-view.php:199
+msgid "Email settings"
+msgstr ""
+
+#: mullet-form-view.php:201
+msgid "Enter your email address"
+msgstr ""
+
+#: mullet-form-view.php:204
+msgid "What should the subject line be?"
+msgstr ""
+
+#: mullet-form-view.php:207
+msgid "Save and go back to form builder"
+msgstr ""

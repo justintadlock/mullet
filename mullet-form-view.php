@@ -3,8 +3,8 @@
  * Template for form builder
  */
 
-wp_register_script( 'grunion', GRUNION_PLUGIN_URL . 'js/grunion.js', array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), JETPACK__VERSION );
-wp_localize_script( 'grunion', 'GrunionFB_i18n', array(
+wp_register_script( 'mullet', MULLET_PLUGIN_URL . 'js/mullet.js', array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), MULLET_PLUGIN_VERSION );
+wp_localize_script( 'mullet', 'MulletFB_i18n', array(
 	'nameLabel' => esc_attr( _x( 'Name', 'Label for HTML form "Name" field in contact form builder', 'mullet' ) ),
 	'emailLabel' => esc_attr( _x( 'Email', 'Label for HTML form "Email" field in contact form builder', 'mullet' ) ),
 	'urlLabel' => esc_attr( _x( 'Website', 'Label for HTML form "URL/Website" field in contact form builder', 'mullet' ) ),
@@ -31,10 +31,10 @@ wp_localize_script( 'grunion', 'GrunionFB_i18n', array(
 <script type="text/javascript">
 	var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 	var postId = <?php echo absint( $_GET['post_id'] ); ?>;
-	var ajax_nonce_shortcode = '<?php echo wp_create_nonce( 'grunion_shortcode' ); ?>';
-	var ajax_nonce_json = '<?php echo wp_create_nonce( 'grunion_shortcode_to_json' ); ?>';
+	var ajax_nonce_shortcode = '<?php echo wp_create_nonce( 'mullet_shortcode' ); ?>';
+	var ajax_nonce_json = '<?php echo wp_create_nonce( 'mullet_shortcode_to_json' ); ?>';
 </script>
-<?php wp_print_scripts( 'grunion' ); ?>
+<?php wp_print_scripts( 'mullet' ); ?>
 <script type="text/javascript">
 	jQuery(document).ready(function () {
 		FB.ContactForm.init();
@@ -87,11 +87,11 @@ wp_localize_script( 'grunion', 'GrunionFB_i18n', array(
 	.fb-new-fields { position: relative; border: 1px dashed #FFF; background: #FFF; padding: 4px 10px 10px; cursor: default; }
 	.fb-new-fields:hover { border: 1px dashed #BBDBEA; background: #F7FBFD; }
 	.fb-options { width: 170px !important; }
-	.fb-remove { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-field.gif') no-repeat; position: absolute; cursor: pointer !important; right: -26px; top: 27px; width: 20px; height: 23px; }
-	.fb-remove:hover { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-field-hover.gif') no-repeat; }
+	.fb-remove { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-field.gif') no-repeat; position: absolute; cursor: pointer !important; right: -26px; top: 27px; width: 20px; height: 23px; }
+	.fb-remove:hover { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-field-hover.gif') no-repeat; }
 	.fb-remove-small { top: 2px !important; }
-	.fb-remove-option { position: absolute; top: 1px; right: 10px; width: 20px; height: 23px; background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-option.gif') no-repeat; }
-	.fb-remove-option:hover { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-option-hover.gif') no-repeat; }
+	.fb-remove-option { position: absolute; top: 1px; right: 10px; width: 20px; height: 23px; background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-option.gif') no-repeat; }
+	.fb-remove-option:hover { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-option-hover.gif') no-repeat; }
 	.fb-reorder { cursor: move; position: relative; }
 	.fb-reorder:hover div { display: block !important; width: 130px !important; position: absolute; top: 0; right: 0; z-index: 200; padding: 5px 10px; color: #555; font-size: 11px; background: #FFF; border: 1px solid #CCC; -moz-border-radius:4px; border-radius:4px; -webkit-border-radius:4px; }
 	.fb-right { position: absolute; right: 0; top: 0; width: 315px; margin: 57px 21px 0 0; }
@@ -105,10 +105,10 @@ wp_localize_script( 'grunion', 'GrunionFB_i18n', array(
 	.fb-success { position: absolute; top: -3px; right: 100px; padding: 6px 23px 4px 23px; background: #FFFFE0; font-weight: normal; border: 1px solid #E6DB55; color: #333; -moz-border-radius:4px; border-radius:4px; -webkit-border-radius:4px; }
 	.right { float: right; }
 	@media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
-		.fb-remove { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-field-2x.png') no-repeat; background-size: 20px 23px; }
-		.fb-remove:hover { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-field-hover-2x.png') no-repeat; background-size: 20px 23px; }
-		.fb-remove-option { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-option-2x.png') no-repeat; background-size: 20px 23px; }
-		.fb-remove-option:hover { background: url('<?php echo GRUNION_PLUGIN_URL; ?>/images/grunion-remove-option-hover-2x.png') no-repeat; background-size: 20px 23px; }
+		.fb-remove { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-field-2x.png') no-repeat; background-size: 20px 23px; }
+		.fb-remove:hover { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-field-hover-2x.png') no-repeat; background-size: 20px 23px; }
+		.fb-remove-option { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-option-2x.png') no-repeat; background-size: 20px 23px; }
+		.fb-remove-option:hover { background: url('<?php echo MULLET_PLUGIN_URL; ?>/images/mullet-remove-option-hover-2x.png') no-repeat; background-size: 20px 23px; }
 	}
 </style>
 </head>

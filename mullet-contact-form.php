@@ -10,16 +10,26 @@ Version: 2.4
 License: GPLv2 or later
 */
 
-define( 'GRUNION_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'GRUNION_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'MULLET_PLUGIN_VERSION', '2.4' );
+define( 'MULLET_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'MULLET_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+
+/* Load Translation */
+add_action( 'plugins_loaded', 'mullet_load_plugin_textdomain' );
+function mullet_load_plugin_textdomain(){
+	load_plugin_textdomain( 'mullet', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+
+
 
 if ( is_admin() )
-	require_once GRUNION_PLUGIN_DIR . '/admin.php';
+	require_once MULLET_PLUGIN_DIR . '/admin.php';
 
 /**
  * Sets up various actions, filters, post types, post statuses, shortcodes.
  */
-class Grunion_Contact_Form_Plugin {
+class Mullet_Contact_Form_Plugin {
 	/**
 	 * @var string The Widget ID of the widget currently being processed.  Used to build the unique contact-form ID for forms embedded in widgets.
 	 */
@@ -29,7 +39,7 @@ class Grunion_Contact_Form_Plugin {
 		static $instance = false;
 
 		if ( !$instance ) {
-			$instance = new Grunion_Contact_Form_Plugin;
+			$instance = new Mullet_Contact_Form_Plugin;
 		}
 
 		return $instance;
@@ -65,10 +75,10 @@ class Grunion_Contact_Form_Plugin {
 			add_action( 'contact_form_akismet', array( $this, 'akismet_submit' ), 10, 2 );
 		}
 
-		add_action( 'loop_start', array( 'Grunion_Contact_Form', '_style_on' ) );
+		add_action( 'loop_start', array( 'Mullet_Contact_Form', '_style_on' ) );
 
-		add_action( 'wp_ajax_grunion-contact-form', array( $this, 'ajax_request' ) );
-		add_action( 'wp_ajax_nopriv_grunion-contact-form', array( $this, 'ajax_request' ) );
+		add_action( 'wp_ajax_mullet-contact-form', array( $this, 'ajax_request' ) );
+		add_action( 'wp_ajax_nopriv_mullet-contact-form', array( $this, 'ajax_request' ) );
 
 		// Export to CSV feature
 		if ( is_admin() ) {
@@ -109,7 +119,7 @@ class Grunion_Contact_Form_Plugin {
 		if (
 			isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' == strtoupper( $_SERVER['REQUEST_METHOD'] )
 		&&
-			isset( $_POST['action'] ) && 'grunion-contact-form' == $_POST['action']
+			isset( $_POST['action'] ) && 'mullet-contact-form' == $_POST['action']
 		&&
 			isset( $_POST['contact-form-id'] )
 		) {
@@ -118,13 +128,13 @@ class Grunion_Contact_Form_Plugin {
 
 		/* Can be dequeued by placing the following in wp-content/themes/yourtheme/functions.php
 		 *
-		 * 	function remove_grunion_style() {
-		 *		wp_deregister_style('grunion.css');
+		 * 	function remove_mullet_style() {
+		 *		wp_deregister_style('mullet.css');
 		 *	}
-		 *	add_action('wp_print_styles', 'remove_grunion_style');
+		 *	add_action('wp_print_styles', 'remove_mullet_style');
 		 */
 
-		wp_register_style( 'grunion.css', GRUNION_PLUGIN_URL . 'css/grunion.css', array(), '1.0' );
+		wp_register_style( 'mullet.css', MULLET_PLUGIN_URL . 'css/mullet.css', array(), '1.0' );
 	}
 
 	/**
@@ -132,7 +142,7 @@ class Grunion_Contact_Form_Plugin {
 	 *
 	 * Conditionally attached to `template_redirect`
 	 */
-	function process_form_submission() {		
+	function process_form_submission() {
 		$id = stripslashes( $_POST['contact-form-id'] );
 
 		if ( is_user_logged_in() ) {
@@ -158,7 +168,7 @@ class Grunion_Contact_Form_Plugin {
 			if ( $sidebar && $widget && isset( $widget['callback'] ) ) {
 				// This is lamer - no API for outputting a given widget by ID
 				ob_start();
-				// Process the widget to populate Grunion_Contact_Form::$last
+				// Process the widget to populate Mullet_Contact_Form::$last
 				call_user_func( $widget['callback'], array(), $widget['params'][0] );
 				ob_end_clean();
 			}
@@ -167,11 +177,11 @@ class Grunion_Contact_Form_Plugin {
 
 			$post = get_post( $id );
 
-			// Process the content to populate Grunion_Contact_Form::$last
+			// Process the content to populate Mullet_Contact_Form::$last
 			apply_filters( 'the_content', $post->post_content );
 		}
 
-		$form = Grunion_Contact_Form::$last;
+		$form = Mullet_Contact_Form::$last;
 
 		if ( ! $form )
 			return false;
@@ -207,7 +217,7 @@ class Grunion_Contact_Form_Plugin {
 	 * Ensure the post author is always zero for contact-form feedbacks
 	 * Attached to `wp_insert_post_data`
 	 *
-	 * @see Grunion_Contact_Form::process_submission()
+	 * @see Mullet_Contact_Form::process_submission()
 	 *
 	 * @param array $data the data to insert
 	 * @param array $postarr the data sent to wp_insert_post()
@@ -226,7 +236,7 @@ class Grunion_Contact_Form_Plugin {
 	 * The "child" contact-field shortcode is added as needed by the contact-form shortcode handler
 	 */
 	function add_shortcode() {
-		add_shortcode( 'contact-form', array( 'Grunion_Contact_Form', 'parse' ) );
+		add_shortcode( 'contact-form', array( 'Mullet_Contact_Form', 'parse' ) );
 	}
 
 	/**
@@ -250,7 +260,7 @@ class Grunion_Contact_Form_Plugin {
 	 * @return string The filtered widget text
 	 */
 	function widget_atts( $text ) {
-		Grunion_Contact_Form::style( true );
+		Mullet_Contact_Form::style( true );
 
 		return preg_replace( '/\[contact-form([^a-zA-Z_-])/', '[contact-form widget="' . $this->current_widget_id . '"\\1', $text );
 	}
@@ -303,7 +313,7 @@ class Grunion_Contact_Form_Plugin {
 
 	/**
 	 * Submit contact-form data to Akismet to check for spam.
-	 * If you're accepting a new item via $_POST, run it Grunion_Contact_Form_Plugin::prepare_for_akismet() first
+	 * If you're accepting a new item via $_POST, run it Mullet_Contact_Form_Plugin::prepare_for_akismet() first
 	 * Attached to `contact_form_is_spam`
 	 *
 	 * @param array $form
@@ -584,7 +594,7 @@ class Grunion_Contact_Form_Plugin {
  * Generic shortcode class.
  * Does nothing other than store structured data and output the shortcode as a string
  *
- * Not very general - specific to Grunion.
+ * Not very general - specific to Mullet.
  */
 class Crunion_Contact_Form_Shortcode {
 	/**
@@ -665,7 +675,7 @@ class Crunion_Contact_Form_Shortcode {
 			return array_map( array( $this, 'esc_attr' ), $value );
 		}
 
-		$value = Grunion_Contact_Form_Plugin::strip_tags( $value );
+		$value = Mullet_Contact_Form_Plugin::strip_tags( $value );
 		$value = _wp_specialchars( $value, ENT_QUOTES, false, true );
 
 		// Shortcode attributes can't contain "]"
@@ -683,12 +693,12 @@ class Crunion_Contact_Form_Shortcode {
 			return array_map( array( $this, 'unesc_attr' ), $value );
 		}
 
-		// For back-compat with old Grunion encoding
+		// For back-compat with old Mullet encoding
 		// Also, unencode commas
 		$value = strtr( $value, array( '%26' => '&', '%25' => '%' ) );
 		$value = preg_replace( array( '/&#x0*22;/i', '/&#x0*27;/i', '/&#x0*26;/i', '/&#x0*2c;/i' ), array( '"', "'", '&', ',' ), $value );
 		$value = htmlspecialchars_decode( $value, ENT_QUOTES );
-		$value = Grunion_Contact_Form_Plugin::strip_tags( $value );
+		$value = Mullet_Contact_Form_Plugin::strip_tags( $value );
 
 		return $value;
 	}
@@ -754,7 +764,7 @@ class Crunion_Contact_Form_Shortcode {
  * Parses shortcode to output the contact form as HTML
  * Sends email and stores the contact form response (a.k.a. "feedback")
  */
-class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
+class Mullet_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	var $shortcode_name = 'contact-form';
 
 	/**
@@ -763,12 +773,12 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	var $errors;
 
 	/**
-	 * @var Grunion_Contact_Form The most recent (inclusive) contact-form shortcode processed
+	 * @var Mullet_Contact_Form The most recent (inclusive) contact-form shortcode processed
 	 */
 	static $last;
 
 	/**
-	 * @var bool Whether to print the grunion.css style when processing the contact-form shortcode
+	 * @var bool Whether to print the mullet.css style when processing the contact-form shortcode
 	 */
 	static $style = false;
 
@@ -785,7 +795,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			$default_subject = sprintf( _x( '%1$s Sidebar', '%1$s = blog name', 'mullet' ), $default_subject );
 		} else if ( $post ) {
 			$attributes['id'] = $post->ID;
-			$default_subject = sprintf( _x( '%1$s %2$s', '%1$s = blog name, %2$s = post title', 'mullet' ), $default_subject, Grunion_Contact_Form_Plugin::strip_tags( $post->post_title ) );
+			$default_subject = sprintf( _x( '%1$s %2$s', '%1$s = blog name, %2$s = post title', 'mullet' ), $default_subject, Mullet_Contact_Form_Plugin::strip_tags( $post->post_title ) );
 			$post_author = get_userdata( $post->post_author );
 			$default_to = $post_author->user_email;
 		}
@@ -794,7 +804,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			'to'                 => $default_to,
 			'subject'            => $default_subject,
 			'show_subject'       => 'no', // only used in back-compat mode
-			'widget'             => 0,    // Not exposed to the user. Works with Grunion_Contact_Form_Plugin::widget_atts()
+			'widget'             => 0,    // Not exposed to the user. Works with Mullet_Contact_Form_Plugin::widget_atts()
 			'id'                 => null, // Not exposed to the user. Set above.
 			'submit_button_text' => __( 'Submit &#187;', 'mullet' ),
 		);
@@ -808,7 +818,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		// There were no fields in the contact form. The form was probably just [contact-form /]. Build a default form.
 		if ( empty( $this->fields ) ) {
-			// same as the original Grunion v1 form
+			// same as the original Mullet v1 form
 			$default_form = '
 				[contact-field label="' . __( 'Name', 'mullet' )    . '" type="name"  required="true" /]
 				[contact-field label="' . __( 'Email', 'mullet' )   . '" type="email" required="true" /]
@@ -830,7 +840,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	}
 
 	/**
-	 * Toggle for printing the grunion.css stylesheet
+	 * Toggle for printing the mullet.css stylesheet
 	 *
 	 * @param bool $style
 	 */
@@ -841,7 +851,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	}
 
 	/**
-	 * Turn on printing of grunion.css stylesheet
+	 * Turn on printing of mullet.css stylesheet
 	 * @see ::style()
 	 * @internal
 	 * @param bool $style
@@ -858,8 +868,8 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	 * @return string HTML for the concat form.
 	 */
 	static function parse( $attributes, $content ) {
-		// Create a new Grunion_Contact_Form object (this class)
-		$form = new Grunion_Contact_Form( $attributes, $content );
+		// Create a new Mullet_Contact_Form object (this class)
+		$form = new Mullet_Contact_Form( $attributes, $content );
 
 		$id = $form->get_attribute( 'id' );
 
@@ -867,7 +877,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			return '[contact-form]';
 		}
 
-		if ( apply_filters( 'jetpack_bail_on_shortcode', false, 'contact-form' ) || is_feed() ) {
+		if ( apply_filters( 'mullet_bail_on_shortcode', false, 'contact-form' ) || is_feed() ) {
 			return '[contact-form]';
 		}
 
@@ -884,12 +894,12 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			self::$last = $form;
 		}
 
-		// Enqueue the grunion.css stylesheet if self::$style allows it
-		if ( self::$style && ( empty( $_REQUEST['action'] ) || $_REQUEST['action'] != 'grunion_shortcode_to_json' ) ) {
+		// Enqueue the mullet.css stylesheet if self::$style allows it
+		if ( self::$style && ( empty( $_REQUEST['action'] ) || $_REQUEST['action'] != 'mullet_shortcode_to_json' ) ) {
 			// Enqueue the style here instead of printing it, because if some other plugin has run the_post()+rewind_posts(),
 			// (like VideoPress does), the style tag gets "printed" the first time and discarded, leaving the contact form unstyled.
 			// when WordPress does the real loop.
-			wp_enqueue_style( 'grunion.css' );
+			wp_enqueue_style( 'mullet.css' );
 		}
 
 		$r = '';
@@ -920,7 +930,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 				$r_success_message .= self::success_message( $feedback_id, $form );
 			}
 
-			$r .= apply_filters( 'grunion_contact_form_success_message', $r_success_message );
+			$r .= apply_filters( 'mullet_contact_form_success_message', $r_success_message );
 		} else {
 			// Nothing special - show the normal contact form
 
@@ -933,7 +943,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			}
 
 			// May eventually want to send this to admin-post.php...
-			$url = apply_filters( 'grunion_contact_form_form_action', "{$url}#contact-form-{$id}", $GLOBALS['post'], $id );
+			$url = apply_filters( 'mullet_contact_form_form_action', "{$url}#contact-form-{$id}", $GLOBALS['post'], $id );
 
 			$r .= "<form action='" . esc_url( $url ) . "' method='post' class='contact-form commentsblock'>\n";
 			$r .= $form->body;
@@ -943,7 +953,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 				$r .= "\t\t" . wp_nonce_field( 'contact-form_' . $id, '_wpnonce', true, false ) . "\n"; // nonce and referer
 			}
 			$r .= "\t\t<input type='hidden' name='contact-form-id' value='$id' />\n";
-			$r .= "\t\t<input type='hidden' name='action' value='grunion-contact-form' />\n";
+			$r .= "\t\t<input type='hidden' name='action' value='mullet-contact-form' />\n";
 			$r .= "\t</p>\n";
 			$r .= "</form>\n";
 		}
@@ -958,7 +968,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		$feedback       = get_post( $feedback_id );
 		$field_ids      = $form->get_field_ids();
-		$content_fields = Grunion_Contact_Form_Plugin::parse_fields_from_content( $feedback_id );
+		$content_fields = Mullet_Contact_Form_Plugin::parse_fields_from_content( $feedback_id );
 
 		// Maps field_ids to post_meta keys
 		$field_value_map = array(
@@ -1019,14 +1029,14 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 	/**
 	 * The contact-field shortcode processor
-	 * We use an object method here instead of a static Grunion_Contact_Form_Field class method to parse contact-field shortcodes so that we can tie them to the contact-form object.
+	 * We use an object method here instead of a static Mullet_Contact_Form_Field class method to parse contact-field shortcodes so that we can tie them to the contact-form object.
 	 *
 	 * @param array $attributes Key => Value pairs as parsed by shortcode_parse_atts()
 	 * @param string|null $content The shortcode's inner content: [contact-field]$content[/contact-field]
 	 * @return HTML for the contact form field
 	 */
 	function parse_contact_field( $attributes, $content ) {
-		$field = new Grunion_Contact_Form_Field( $attributes, $content, $this );
+		$field = new Mullet_Contact_Form_Field( $attributes, $content, $this );
 
 		$field_id = $field->get_attribute( 'id' );
 		if ( $field_id ) {
@@ -1036,7 +1046,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		}
 
 		if (
-			isset( $_POST['action'] ) && 'grunion-contact-form' === $_POST['action']
+			isset( $_POST['action'] ) && 'mullet-contact-form' === $_POST['action']
 		&&
 			isset( $_POST['contact-form-id'] ) && $this->get_attribute( 'id' ) == $_POST['contact-form-id']
 		) {
@@ -1100,7 +1110,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 	function process_submission() {
 		global $post;
 
-		$plugin = Grunion_Contact_Form_Plugin::init();
+		$plugin = Mullet_Contact_Form_Plugin::init();
 
 		$id     = $this->get_attribute( 'id' );
 		$to     = $this->get_attribute( 'to' );
@@ -1155,35 +1165,35 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		if ( isset( $field_ids['name'] ) ) {
 			$field = $this->fields[$field_ids['name']];
-			$comment_author = Grunion_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_name', addslashes( $field->value ) ) ) );
-			$comment_author_label = Grunion_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
+			$comment_author = Mullet_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_name', addslashes( $field->value ) ) ) );
+			$comment_author_label = Mullet_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
 		}
 
 		if ( isset( $field_ids['email'] ) ) {
 			$field = $this->fields[$field_ids['email']];
-			$comment_author_email = Grunion_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_email', addslashes( $field->value ) ) ) );
-			$comment_author_email_label = Grunion_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
+			$comment_author_email = Mullet_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_email', addslashes( $field->value ) ) ) );
+			$comment_author_email_label = Mullet_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
 		}
 
 		if ( isset( $field_ids['url'] ) ) {
 			$field = $this->fields[$field_ids['url']];
-			$comment_author_url = Grunion_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_url', addslashes( $field->value ) ) ) );
+			$comment_author_url = Mullet_Contact_Form_Plugin::strip_tags( stripslashes( apply_filters( 'pre_comment_author_url', addslashes( $field->value ) ) ) );
 			if ( 'http://' == $comment_author_url ) {
 				$comment_author_url = '';
 			}
-			$comment_author_url_label = Grunion_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
+			$comment_author_url_label = Mullet_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
 		}
 
 		if ( isset( $field_ids['textarea'] ) ) {
 			$field = $this->fields[$field_ids['textarea']];
-			$comment_content = trim( Grunion_Contact_Form_Plugin::strip_tags( $field->value ) );
-			$comment_content_label = Grunion_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
+			$comment_content = trim( Mullet_Contact_Form_Plugin::strip_tags( $field->value ) );
+			$comment_content_label = Mullet_Contact_Form_Plugin::strip_tags( $field->get_attribute( 'label' ) );
 		}
 
 		if ( isset( $field_ids['subject'] ) ) {
 			$field = $this->fields[$field_ids['subject']];
 			if ( $field->value ) {
-				$contact_form_subject = Grunion_Contact_Form_Plugin::strip_tags( $field->value );
+				$contact_form_subject = Mullet_Contact_Form_Plugin::strip_tags( $field->value );
 			}
 		}
 
@@ -1207,7 +1217,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		$contact_form_subject = trim( $contact_form_subject );
 
-		$comment_author_IP = Grunion_Contact_Form_Plugin::get_ip_address();
+		$comment_author_IP = Mullet_Contact_Form_Plugin::get_ip_address();
 
 		$vars = array( 'comment_author', 'comment_author_email', 'comment_author_url', 'contact_form_subject', 'comment_author_IP' );
 		foreach ( $vars as $var )
@@ -1229,7 +1239,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 
 		$to = (array) apply_filters( 'contact_form_to', $to );
 		foreach ( $to as $to_key => $to_value ) {
-			$to[$to_key] = Grunion_Contact_Form_Plugin::strip_tags( $to_value );
+			$to[$to_key] = Mullet_Contact_Form_Plugin::strip_tags( $to_value );
 		}
 
 		$blog_url = parse_url( site_url() );
@@ -1282,7 +1292,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		}
 
 		$message = apply_filters( 'contact_form_message', $message );
-		$message = Grunion_Contact_Form_Plugin::strip_tags( $message );
+		$message = Mullet_Contact_Form_Plugin::strip_tags( $message );
 
 		// keep a copy of the feedback as a custom post type
 		$feedback_time   = current_time( 'mysql' );
@@ -1290,15 +1300,15 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		$feedback_status = $is_spam === TRUE ? 'spam' : 'publish';
 		
 		foreach ( (array) $akismet_values as $av_key => $av_value ) {
-			$akismet_values[$av_key] = Grunion_Contact_Form_Plugin::strip_tags( $av_value );
+			$akismet_values[$av_key] = Mullet_Contact_Form_Plugin::strip_tags( $av_value );
 		}
 
 		foreach ( (array) $all_values as $all_key => $all_value ) {
-			$all_values[$all_key] = Grunion_Contact_Form_Plugin::strip_tags( $all_value );
+			$all_values[$all_key] = Mullet_Contact_Form_Plugin::strip_tags( $all_value );
 		}
 
 		foreach ( (array) $extra_values as $ev_key => $ev_value ) {
-			$extra_values[$ev_key] = Grunion_Contact_Form_Plugin::strip_tags( $ev_value );
+			$extra_values[$ev_key] = Mullet_Contact_Form_Plugin::strip_tags( $ev_value );
 		}
 
 		/* We need to make sure that the post author is always zero for contact
@@ -1328,16 +1338,16 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 		update_post_meta( $post_id, '_feedback_akismet_values', $this->addslashes_deep( $akismet_values ) );
 		update_post_meta( $post_id, '_feedback_email', $this->addslashes_deep( compact( 'to', 'message' ) ) );
 
-		do_action( 'grunion_pre_message_sent', $post_id, $all_values, $extra_values );
+		do_action( 'mullet_pre_message_sent', $post_id, $all_values, $extra_values );
 
 		// schedule deletes of old spam feedbacks
-		if ( !wp_next_scheduled( 'grunion_scheduled_delete' ) ) {
-			wp_schedule_event( time() + 250, 'daily', 'grunion_scheduled_delete' );
+		if ( !wp_next_scheduled( 'mullet_scheduled_delete' ) ) {
+			wp_schedule_event( time() + 250, 'daily', 'mullet_scheduled_delete' );
 		}
 
-		if ( $is_spam !== TRUE && true === apply_filters( 'grunion_should_send_email', true, $post_id ) ) {
+		if ( $is_spam !== TRUE && true === apply_filters( 'mullet_should_send_email', true, $post_id ) ) {
 			wp_mail( $to, "{$spam}{$subject}", $message, $headers );
-		} elseif ( true === $is_spam && apply_filters( 'grunion_still_email_spam', FALSE ) == TRUE ) { // don't send spam by default.  Filterable.
+		} elseif ( true === $is_spam && apply_filters( 'mullet_still_email_spam', FALSE ) == TRUE ) { // don't send spam by default.  Filterable.
 			wp_mail( $to, "{$spam}{$subject}", $message, $headers );
 		}
 
@@ -1356,7 +1366,7 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
 			'_wpnonce'          => wp_create_nonce( "contact-form-sent-{$post_id}" ), // wp_nonce_url HTMLencodes :(
 		) ), $redirect );
 
-		$redirect = apply_filters( 'grunion_contact_form_redirect_url', $redirect, $id, $post_id );
+		$redirect = apply_filters( 'mullet_contact_form_redirect_url', $redirect, $id, $post_id );
 
 		wp_safe_redirect( $redirect );
 		exit;
@@ -1382,11 +1392,11 @@ class Grunion_Contact_Form extends Crunion_Contact_Form_Shortcode {
  * Parses shortcode to output the contact form field as HTML.
  * Validates input.
  */
-class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
+class Mullet_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 	var $shortcode_name = 'contact-field';
 
 	/**
-	 * @var Grunion_Contact_Form parent form
+	 * @var Mullet_Contact_Form parent form
 	 */
 	var $form;
 
@@ -1403,7 +1413,7 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 	/**
 	 * @param array $attributes An associative array of shortcode attributes.  @see shortcode_atts()
 	 * @param null|string $content Null for selfclosing shortcodes.  The inner content otherwise.
-	 * @param Grunion_Contact_Form $form The parent form
+	 * @param Mullet_Contact_Form $form The parent form
 	 */
 	function __construct( $attributes, $content = null, $form = null ) {
 		$attributes = shortcode_atts( array(
@@ -1558,27 +1568,27 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			$this->value = $this->get_attribute( 'default' );
 		}
 
-		$field_value = Grunion_Contact_Form_Plugin::strip_tags( $this->value );
-		$field_label = Grunion_Contact_Form_Plugin::strip_tags( $field_label );
+		$field_value = Mullet_Contact_Form_Plugin::strip_tags( $this->value );
+		$field_label = Mullet_Contact_Form_Plugin::strip_tags( $field_label );
 
 		switch ( $field_type ) {
 		case 'email' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label email" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='mullet-field-label email" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='email' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='email' " . $field_placeholder . "/>\n";
 			$r .= "\t</div>\n";
 			break;
 		case 'textarea' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='contact-form-comment-" . esc_attr( $field_id ) . "' class='grunion-field-label textarea" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='contact-form-comment-" . esc_attr( $field_id ) . "' class='mullet-field-label textarea" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<textarea name='" . esc_attr( $field_id ) . "' id='contact-form-comment-" . esc_attr( $field_id ) . "' rows='20'>" . esc_textarea( $field_value ) . "</textarea>\n";
 			$r .= "\t</div>\n";
 			break;
 		case 'radio' :
-			$r .= "\t<div><label class='grunion-field-label" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t<div><label class='mullet-field-label" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			foreach ( $this->get_attribute( 'options' ) as $option ) {
-				$option = Grunion_Contact_Form_Plugin::strip_tags( $option );
-				$r .= "\t\t<label class='grunion-radio-label radio" . ( $this->is_error() ? ' form-error' : '' ) . "'>";
+				$option = Mullet_Contact_Form_Plugin::strip_tags( $option );
+				$r .= "\t\t<label class='mullet-radio-label radio" . ( $this->is_error() ? ' form-error' : '' ) . "'>";
 				$r .= "<input type='radio' name='" . esc_attr( $field_id ) . "' value='" . esc_attr( $option ) . "' class='radio' " . checked( $option, $field_value, false ) . " /> ";
 				$r .= esc_html( $option ) . "</label>\n";
 				$r .= "\t\t<div class='clear-form'></div>\n";
@@ -1587,7 +1597,7 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			break;
 		case 'checkbox' :
 			$r .= "\t<div>\n";
-			$r .= "\t\t<label class='grunion-field-label checkbox" . ( $this->is_error() ? ' form-error' : '' ) . "'>\n";
+			$r .= "\t\t<label class='mullet-field-label checkbox" . ( $this->is_error() ? ' form-error' : '' ) . "'>\n";
 			$r .= "\t\t<input type='checkbox' name='" . esc_attr( $field_id ) . "' value='" . esc_attr__( 'Yes', 'mullet' ) . "' class='checkbox' " . checked( (bool) $field_value, true, false ) . " /> \n";
 			$r .= "\t\t" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<div class='clear-form'></div>\n";
@@ -1595,10 +1605,10 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			break;
 		case 'select' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label select" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='mullet-field-label select" . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>'. __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t<select name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' class='select' >\n";
 			foreach ( $this->get_attribute( 'options' ) as $option ) {
-				$option = Grunion_Contact_Form_Plugin::strip_tags( $option );
+				$option = Mullet_Contact_Form_Plugin::strip_tags( $option );
 				$r .= "\t\t<option" . selected( $option, $field_value, false ) . ">" . esc_html( $option ) . "</option>\n";
 			}
 			$r .= "\t</select>\n";
@@ -1606,36 +1616,36 @@ class Grunion_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
 			break;
 		case 'date' :
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='mullet-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='date' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='" . esc_attr( $field_type ) . "'/>\n";
 			$r .= "\t</div>\n";
 
-			wp_enqueue_script( 'grunion-frontend', plugins_url( 'js/grunion-frontend.js', __FILE__ ), array( 'jquery', 'jquery-ui-datepicker' ) );
+			wp_enqueue_script( 'mullet-frontend', plugins_url( 'js/mullet-frontend.js', __FILE__ ), array( 'jquery', 'jquery-ui-datepicker' ) );
 			break;
 		default : // text field
 			// note that any unknown types will produce a text input, so we can use arbitrary type names to handle
 			// input fields like name, email, url that require special validation or handling at POST
 			$r .= "\n<div>\n";
-			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='grunion-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
+			$r .= "\t\t<label for='" . esc_attr( $field_id ) . "' class='mullet-field-label " . esc_attr( $field_type ) . ( $this->is_error() ? ' form-error' : '' ) . "'>" . esc_html( $field_label ) . ( $field_required ? '<span>' . __( "(required)", 'mullet' ) . '</span>' : '' ) . "</label>\n";
 			$r .= "\t\t<input type='text' name='" . esc_attr( $field_id ) . "' id='" . esc_attr( $field_id ) . "' value='" . esc_attr( $field_value ) . "' class='" . esc_attr( $field_type ) . "' " . $field_placeholder . "/>\n";
 			$r .= "\t</div>\n";
 		}
 
-		return apply_filters( 'grunion_contact_form_field_html', $r, $field_label, ( in_the_loop() ? get_the_ID() : null ) );
+		return apply_filters( 'mullet_contact_form_field_html', $r, $field_label, ( in_the_loop() ? get_the_ID() : null ) );
 	}
 }
 
-add_action( 'init', array( 'Grunion_Contact_Form_Plugin', 'init' ) );
+add_action( 'init', array( 'Mullet_Contact_Form_Plugin', 'init' ) );
 
-add_action( 'grunion_scheduled_delete', 'grunion_delete_old_spam' );
+add_action( 'mullet_scheduled_delete', 'mullet_delete_old_spam' );
 
 /**
  * Deletes old spam feedbacks to keep the posts table size under control
  */
-function grunion_delete_old_spam() {
+function mullet_delete_old_spam() {
 	global $wpdb;
 
-	$grunion_delete_limit = 100;
+	$mullet_delete_limit = 100;
 
 	$now_gmt = current_time( 'mysql', 1 );
 	$sql = $wpdb->prepare( "
@@ -1645,7 +1655,7 @@ function grunion_delete_old_spam() {
 			AND `post_type` = 'feedback'
 			AND `post_status` = 'spam'
 		LIMIT %d
-	", $now_gmt, $grunion_delete_limit );
+	", $now_gmt, $mullet_delete_limit );
 	$post_ids = $wpdb->get_col( $sql );
 
 	foreach ( (array) $post_ids as $post_id ) {
@@ -1657,12 +1667,12 @@ function grunion_delete_old_spam() {
 	# nothing special about 5000 or 11
 	# just trying to periodically recover deleted rows
 	$random_num = mt_rand( 1, 5000 );
-	if ( apply_filters( 'grunion_optimize_table', ( $random_num == 11 ) ) ) {
+	if ( apply_filters( 'mullet_optimize_table', ( $random_num == 11 ) ) ) {
 		$wpdb->query( "OPTIMIZE TABLE $wpdb->posts" );
 	}
 
 	# if we hit the max then schedule another run
-	if ( count( $post_ids ) >= $grunion_delete_limit ) {
-		wp_schedule_single_event( time() + 700, 'grunion_scheduled_delete' );
+	if ( count( $post_ids ) >= $mullet_delete_limit ) {
+		wp_schedule_single_event( time() + 700, 'mullet_scheduled_delete' );
 	}
 }
