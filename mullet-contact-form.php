@@ -26,7 +26,7 @@ function mullet_compatiblity_fix() {
     $mullet_plugin = plugin_basename( __FILE__ );
     $plugin_data = get_plugin_data( __FILE__, false );	
 	
-	// Deactivate Deprecated Grunion Contact Form if Mullet Contact form got activated.
+	/* Deactivate Deprecated Grunion Contact Form */
 	if ( is_plugin_active( $grunion_contact_form) ) {
         deactivate_plugins ( $grunion_contact_form );
 		add_action('admin_notices', 'grunion_die_notice');
@@ -39,17 +39,12 @@ function mullet_compatiblity_fix() {
 		
     }
 	
-	// Deactivate Mullet Contact Form if JetPack is activated.
-	else if ( class_exists( 'Jetpack', false ) && $jetpack_active_modules && in_array( 'contact-form', $jetpack_active_modules ) ) {
-		deactivate_plugins( $mullet_plugin );
-		add_action('admin_notices', 'mullet_die_notice');
-		
-		function mullet_die_notice(){
-			echo '<div class="update-nag">Mullet Contact Form can\'t be used along with JetPack Plugin. Please <a href="https://wordpress.org/plugins/mullet-contact-form/faq/">Check FAQs</a> for more info.</div>';
-			if ( isset( $_GET['activate'] ) )
-				unset( $_GET['activate'] );
-		}
+	/* Disable Jetpack Grunion Contact Form Module */
+	function my_kill_jetpack_contact_form ( $modules ) {
+		unset( $modules['contact-form'] );
+		return $modules;
 	}
+	add_filter( 'jetpack_get_available_modules', 'my_kill_jetpack_contact_form' );
 }
 add_action( 'admin_init', 'mullet_compatiblity_fix' );
 

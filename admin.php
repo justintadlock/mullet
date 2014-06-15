@@ -25,9 +25,9 @@ function mullet_media_button( ) {
 	<?php
 }
 
-add_action( 'wp_ajax_mullet_form_builder', 'display_form_view' );
+add_action( 'wp_ajax_mullet_form_builder', 'mullet_display_form_view' );
 
-function display_form_view() {
+function mullet_display_form_view() {
 	require_once MULLET_PLUGIN_DIR . 'mullet-form-view.php';
 	exit;
 }
