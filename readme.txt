@@ -1,9 +1,9 @@
 === Mullet Contact Form ===
 Contributors: mdawaffe, automattic, nickmomrik
 Tags: WordPress.com, contact form, email
-Stable tag: 2.3
+Stable tag: 2.4
 Requires at least: 3.0
-Tested up to: 3.3
+Tested up to: 3.9.1
 
 Add a contact form to any post, page or text widget. Messages will be sent to any email address you choose. As seen on WordPress.com.
 

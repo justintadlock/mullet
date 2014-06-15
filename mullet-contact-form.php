@@ -15,6 +15,45 @@ define( 'MULLET_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MULLET_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 
+/*
+ * Fixing the compatibility with Grunion Contact Form and JetPack Contact Form Module 
+ * By deactivating Deprecated Grunion Contact Form or Mullet Contact Form itself.
+ * @since 2.4
+ */	
+function mullet_compatiblity_fix() {
+    $grunion_contact_form = 'grunion-contact-form/grunion-contact-form.php';
+	$jetpack_active_modules = get_option('jetpack_active_modules');
+    $mullet_plugin = plugin_basename( __FILE__ );
+    $plugin_data = get_plugin_data( __FILE__, false );	
+	
+	// Deactivate Deprecated Grunion Contact Form if Mullet Contact form got activated.
+	if ( is_plugin_active( $grunion_contact_form) ) {
+        deactivate_plugins ( $grunion_contact_form );
+		add_action('admin_notices', 'grunion_die_notice');
+		
+		function grunion_die_notice(){
+			echo '<div class="updated">
+					<p>Deprecated Grunion Contact Form has been DEACTIVATED successfully. Your new "Mullet Contact Form" is ready to rock. Cheers!</p>
+				</div>';
+		}
+		
+    }
+	
+	// Deactivate Mullet Contact Form if JetPack is activated.
+	else if ( class_exists( 'Jetpack', false ) && $jetpack_active_modules && in_array( 'contact-form', $jetpack_active_modules ) ) {
+		deactivate_plugins( $mullet_plugin );
+		add_action('admin_notices', 'mullet_die_notice');
+		
+		function mullet_die_notice(){
+			echo '<div class="update-nag">Mullet Contact Form can\'t be used along with JetPack Plugin. Please <a href="https://wordpress.org/plugins/mullet-contact-form/faq/">Check FAQs</a> for more info.</div>';
+			if ( isset( $_GET['activate'] ) )
+				unset( $_GET['activate'] );
+		}
+	}
+}
+add_action( 'admin_init', 'mullet_compatiblity_fix' );
+
+
 /* Load Translation */
 add_action( 'plugins_loaded', 'mullet_load_plugin_textdomain' );
 function mullet_load_plugin_textdomain(){
