@@ -6,6 +6,7 @@ This is a fork that I and others will be maintaining of the Mullet Contact Form.
 
 * @justintadlock
 * @turtlepod
+* @anandkumar
 
 ## Todo
 

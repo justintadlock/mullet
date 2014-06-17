@@ -1,16 +1,27 @@
 <?php
+/**
+ * Plugin Name: Mullet Forms
+ * Plugin URI:  https://github.com/justintadlock/mullet
+ * Description: Add a form to any post or text widgets with ease. Emails are sent to the post author or any email you choose. Fork of the original Grunion Contact Form plugin.
+ * Version:     1.0.0-alpha-1
+ * Author:      Theme Hybrid
+ * Author URI:  http://themehybrid.com
+ * License:     GNU General Public License v2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mullet
+ * Domain Path: /languages
+ *
+ * Mullet Forms is a fork of the Grunion Contact Form plugin, created by Automattic, Inc. Grunion was 
+ * released under the GPL v2 or later. This plugin retains that license.
+ *
+ * @author Automattic, Inc.
+ * @author Michael Adams
+ * @author Nick Momrick
+ * @link   https://wordpress.org/plugins/grunion-contact-form
+ * @link   http://automattic.com
+ */
 
-/*
-Plugin Name: Mullet Contact Form
-Description: Add a contact form to any post, page or text widget.  Emails will be sent to the post's author by default, or any email address you choose.  As seen on WordPress.com.
-Plugin URI: http://automattic.com/#
-AUthor: Automattic, Inc.
-Author URI: http://automattic.com/
-Version: 2.4
-License: GPLv2 or later
-*/
-
-define( 'MULLET_PLUGIN_VERSION', '2.4' );
+define( 'MULLET_PLUGIN_VERSION', '1.0.0' );
 define( 'MULLET_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MULLET_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
