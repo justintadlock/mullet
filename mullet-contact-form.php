@@ -596,7 +596,7 @@ class Mullet_Contact_Form_Plugin {
  *
  * Not very general - specific to Mullet.
  */
-class Crunion_Contact_Form_Shortcode {
+class Mullet_Contact_Form_Shortcode {
 	/**
 	 * @var string the name of the shortcode: [$shortcode_name /]
  	 */
@@ -764,7 +764,7 @@ class Crunion_Contact_Form_Shortcode {
  * Parses shortcode to output the contact form as HTML
  * Sends email and stores the contact form response (a.k.a. "feedback")
  */
-class Mullet_Contact_Form extends Crunion_Contact_Form_Shortcode {
+class Mullet_Contact_Form extends Mullet_Contact_Form_Shortcode {
 	var $shortcode_name = 'contact-form';
 
 	/**
@@ -1392,7 +1392,7 @@ class Mullet_Contact_Form extends Crunion_Contact_Form_Shortcode {
  * Parses shortcode to output the contact form field as HTML.
  * Validates input.
  */
-class Mullet_Contact_Form_Field extends Crunion_Contact_Form_Shortcode {
+class Mullet_Contact_Form_Field extends Mullet_Contact_Form_Shortcode {
 	var $shortcode_name = 'contact-field';
 
 	/**
