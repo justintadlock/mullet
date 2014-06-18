@@ -1,6 +1,6 @@
 === Mullet Contact Form ===
 
-Contributors: greenshady
+Contributors: greenshady, BlogSynthesis
 Tags: contact form, email
 Stable tag: 1.0.0
 Requires at least: 3.8
